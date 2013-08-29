@@ -16,5 +16,5 @@ For the most comprehensive examples, see the words_test.go file. For the impatie
 
         fmt.Println(ruverb.Negative()) // prints 食べない
         fmt.Println(uverb.Negative()) // prints 買わない
-        fmt.Println(uverb2.Negative()) // prints 買わない
+        fmt.Println(uverb2.Negative()) // prints 待たない
     }
