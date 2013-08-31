@@ -111,16 +111,11 @@ func (v *UVerb) Past() Word {
 	switch lastCharacter {
 	case "す":
 		return Word{restOfKanji + "した", restOfKana + "した", "did " + v.english}
-	case "く":
-	case "ぐ":
+	case "く", "ぐ":
 		return Word{restOfKanji + "いた", restOfKana + "いた", "did " + v.english}
-	case "む":
-	case "ぶ":
-	case "ぬ":
+	case "む", "ぶ", "ぬ":
 		return Word{restOfKanji + "んだ", restOfKana + "んだ", "did " + v.english}
-	case "る":
-	case "う":
-	case "つ":
+	case "る", "う", "つ":
 		return Word{restOfKanji + "った", restOfKana + "った", "did " + v.english}
 	}
 

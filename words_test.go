@@ -112,6 +112,19 @@ func (s *JapaneseSuite) TestNegativeUVerbs(c *C) {
 		neg_word := v.Negative()
 		c.Check(neg_word.kanji, Equals, verb.neg_kanji)
 		c.Check(neg_word.kana, Equals, verb.neg_kana)
+		c.Check(neg_word.english, Equals, verb.neg_english)
+	}
+}
+
+func (s *JapaneseSuite) TestPastUVerbs(c *C) {
+	// check that ru-verbs get the correct past suffix
+	for i := range s.UVerbs {
+		v := s.UVerbs[i]
+		t := uVerbs[i]
+		past_word := v.Past()
+		c.Check(past_word.kanji, Equals, t.past_kanji)
+		c.Check(past_word.kana, Equals, t.past_kana)
+		c.Check(past_word.english, Equals, t.past_english)
 	}
 }
 
