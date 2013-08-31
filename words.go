@@ -1,4 +1,4 @@
-package main
+package japanese
 
 import "fmt"
 
@@ -150,14 +150,4 @@ type Adjective struct {
 
 type NaAdjective struct {
 	Adjective
-}
-
-func main() {
-	ruverb := RuVerb{Verb{Word{"食べる", "たべる", "eat"}}}
-	uverb := UVerb{Verb{Word{"買う", "かう", "buy"}}}
-	uverb2 := UVerb{Verb{Word{"待つ", "まつ", "wait"}}}
-
-	fmt.Println(ruverb.Negative(), "食べない")
-	fmt.Println(uverb.Negative(), "買わない")
-	fmt.Println(uverb2.Negative(), "待たない")
 }

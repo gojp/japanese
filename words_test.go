@@ -1,4 +1,4 @@
-package main
+package japanese
 
 import (
 	. "launchpad.net/gocheck"
