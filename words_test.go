@@ -129,11 +129,23 @@ func (s *JapaneseSuite) TestPastUVerbs(c *C) {
 }
 
 func (s *JapaneseSuite) TestNegativeExceptionVerbs(c *C) {
-	// check that ru-verbs get the correct negative suffix
+	// check that exception-verbs get the correct negative suffix
 	for _, verb := range exceptionVerbs {
 		v := ExceptionVerb{Verb{Word{verb.kanji, verb.kana, verb.english}}}
 		neg_word := v.Negative()
 		c.Check(neg_word.kanji, Equals, verb.neg_kanji)
 		c.Check(neg_word.kana, Equals, verb.neg_kana)
+	}
+}
+
+func (s *JapaneseSuite) TestPastExceptionVerbs(c *C) {
+	// check that exception-verbs get the correct past suffix
+	for i := range s.ExceptionVerbs {
+		v := s.ExceptionVerbs[i]
+		t := exceptionVerbs[i]
+		past_word := v.Past()
+		c.Check(past_word.kanji, Equals, t.past_kanji)
+		c.Check(past_word.kana, Equals, t.past_kana)
+		c.Check(past_word.english, Equals, t.past_english)
 	}
 }

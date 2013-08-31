@@ -96,13 +96,6 @@ func (v *UVerb) Past() Word {
 	lastCharacter := v.GetLastKana()
 	restOfKanji, restOfKana := v.GetAllButLast()
 
-	// handle exceptions first:
-	if v.kanji == "する" {
-		return Word{"した", "した", "did" + v.english}
-	}
-	if v.kanji == "くる" {
-		return Word{"きた", "きた", "did" + v.english}
-	}
 	// 行く is only an exception for this rule
 	if v.kanji == "行く" {
 		return Word{"行った", "いった", "did" + v.english}
@@ -130,9 +123,19 @@ type ExceptionVerb struct {
 func (v *ExceptionVerb) Negative() Word {
 	switch v.kanji {
 	case "する":
-		return Word{"しない", "しない", "not do"}
+		return Word{"しない", "しない", "not " + v.english}
 	case "くる":
-		return Word{"こない", "こない", "not come"}
+		return Word{"こない", "こない", "not " + v.english}
+	}
+	return v.GetWord()
+}
+
+func (v *ExceptionVerb) Past() Word {
+	if v.kanji == "する" {
+		return Word{"した", "した", "did " + v.english}
+	}
+	if v.kanji == "くる" {
+		return Word{"きた", "きた", "did " + v.english}
 	}
 	return v.GetWord()
 }
