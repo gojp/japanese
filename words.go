@@ -46,10 +46,6 @@ type RuVerb struct {
 }
 
 func (v *RuVerb) Negative() Word {
-	// one exception for case "ある":
-	if v.kanji == "ある" {
-		return Word{"ない", "ない", "not " + v.english}
-	}
 	// drop the る and attach ない
 	restOfKanji, restOfKana := v.GetAllButLast()
 	return Word{restOfKanji + "ない", restOfKana + "ない", "not " + v.english}
@@ -68,6 +64,11 @@ type UVerb struct {
 func (v *UVerb) Negative() Word {
 	lastCharacter := v.GetLastKana()
 	restOfKanji, restOfKana := v.GetAllButLast()
+
+	// one exception for case "ある":
+	if v.kanji == "ある" {
+		return Word{"ない", "ない", "not " + v.english}
+	}
 
 	// if verb ends in う, replace う with わない
 	if lastCharacter == "う" {
