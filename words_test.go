@@ -41,7 +41,6 @@ var ruVerbs []TestWord = []TestWord{
 	TestWord{"出る", "でる", "go out", "出ない", "でない", "not go out", "出た", "でた", "did go out"},
 	TestWord{"着る", "きる", "wear", "着ない", "きない", "not wear", "着た", "きた", "did wear"},
 	TestWord{"いる", "いる", "exist", "いない", "いない", "not exist", "いた", "いた", "did exist"},
-	TestWord{"ある", "ある", "exist", "ない", "ない", "not exist", "あた", "あた", "did exist"},
 }
 
 // u-verbs
@@ -55,6 +54,7 @@ var uVerbs []TestWord = []TestWord{
 	TestWord{"買う", "かう", "buy", "買わない", "かわない", "not buy", "買った", "かった", "did buy"},
 	TestWord{"帰る", "かえる", "return", "帰らない", "かえらない", "not return", "帰った", "かえった", "did return"},
 	TestWord{"死ぬ", "しぬ", "die", "死なない", "しなない", "not die", "死んだ", "しんだ", "did die"},
+	TestWord{"ある", "ある", "exist", "ない", "ない", "not exist", "あった", "あった", "did exist"},
 }
 
 // exceptions
