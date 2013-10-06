@@ -5,9 +5,8 @@ import "fmt"
 /* === WORDS === */
 
 type Word struct {
-	kanji   string
-	kana    string
-	english string
+	kanji string
+	kana  string
 }
 
 func (w *Word) Print() {
@@ -48,17 +47,17 @@ type RuVerb struct {
 func (v *RuVerb) Negative() Word {
 	// one exception for case "ある":
 	if v.kanji == "ある" {
-		return Word{"ない", "ない", "not " + v.english}
+		return Word{"ない", "ない"}
 	}
 	// drop the る and attach ない
 	restOfKanji, restOfKana := v.GetAllButLast()
-	return Word{restOfKanji + "ない", restOfKana + "ない", "not " + v.english}
+	return Word{restOfKanji + "ない", restOfKana + "ない"}
 }
 
 func (v *RuVerb) Past() Word {
 	// drop the る and attach た
 	restOfKanji, restOfKana := v.GetAllButLast()
-	return Word{restOfKanji + "た", restOfKana + "た", "did " + v.english}
+	return Word{restOfKanji + "た", restOfKana + "た"}
 }
 
 type UVerb struct {
@@ -72,7 +71,7 @@ func (v *UVerb) Negative() Word {
 	// if verb ends in う, replace う with わない
 	if lastCharacter == "う" {
 		extra := "わない"
-		return Word{restOfKanji + extra, restOfKana + extra, "not " + v.english}
+		return Word{restOfKanji + extra, restOfKana + extra}
 		// otherwise replace with the -a equivalent
 	} else {
 		original := []string{"つ", "く", "ゅ", "す", "ぬ", "ふ", "む", "ゆ", "ぐ", "ず", "づ", "ぶ", "ぷ", "る"}
@@ -80,7 +79,7 @@ func (v *UVerb) Negative() Word {
 		for i, o := range original {
 			if o == lastCharacter {
 				extra := replace[i] + "ない"
-				return Word{restOfKanji + extra, restOfKana + extra, "not " + v.english}
+				return Word{restOfKanji + extra, restOfKana + extra}
 			}
 		}
 	}
@@ -98,18 +97,18 @@ func (v *UVerb) Past() Word {
 
 	// 行く is only an exception for this rule
 	if v.kanji == "行く" {
-		return Word{"行った", "いった", "did" + v.english}
+		return Word{"行った", "いった"}
 	}
 
 	switch lastCharacter {
 	case "す":
-		return Word{restOfKanji + "した", restOfKana + "した", "did " + v.english}
+		return Word{restOfKanji + "した", restOfKana + "した"}
 	case "く", "ぐ":
-		return Word{restOfKanji + "いた", restOfKana + "いた", "did " + v.english}
+		return Word{restOfKanji + "いた", restOfKana + "いた"}
 	case "む", "ぶ", "ぬ":
-		return Word{restOfKanji + "んだ", restOfKana + "んだ", "did " + v.english}
+		return Word{restOfKanji + "んだ", restOfKana + "んだ"}
 	case "る", "う", "つ":
-		return Word{restOfKanji + "った", restOfKana + "った", "did " + v.english}
+		return Word{restOfKanji + "った", restOfKana + "った"}
 	}
 
 	// otherwise we just return the same word, because we don't know what to do:
@@ -123,19 +122,19 @@ type ExceptionVerb struct {
 func (v *ExceptionVerb) Negative() Word {
 	switch v.kanji {
 	case "する":
-		return Word{"しない", "しない", "not " + v.english}
+		return Word{"しない", "しない"}
 	case "くる":
-		return Word{"こない", "こない", "not " + v.english}
+		return Word{"こない", "こない"}
 	}
 	return v.GetWord()
 }
 
 func (v *ExceptionVerb) Past() Word {
 	if v.kanji == "する" {
-		return Word{"した", "した", "did " + v.english}
+		return Word{"した", "した"}
 	}
 	if v.kanji == "くる" {
-		return Word{"きた", "きた", "did " + v.english}
+		return Word{"きた", "きた"}
 	}
 	return v.GetWord()
 }
