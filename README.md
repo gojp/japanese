@@ -11,9 +11,10 @@ Where this is aiming
 A `GetRoot` function that takes a string and returns one or more root forms, along with the rule used to transform it to root form. For example:
 
 ```
->>> root, rule := japanese.GetRoot("食べない")
->>> fmt.Println(root, rule)
-食べる "negative"
+>>> roots := japanese.Analyze("食べない")
+>>> root := roots[0]
+>>> fmt.Println(root.Root, root.DictionaryForm, root.Rule)
+食べ 食べる negative
 ```
 
 Examples
