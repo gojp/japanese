@@ -24,8 +24,8 @@ type TestWord struct {
 	past_kanji string
 	past_kana  string
 
-	masu_kanji string
-	masu_kana  string
+	long_kanji string
+	long_kana  string
 
 	long_neg_kanji string
 	long_neg_kana  string
@@ -109,6 +109,39 @@ func (s *JapaneseSuite) TestPastRuVerbs(c *C) {
 	}
 }
 
+func (s *JapaneseSuite) TestLongRuVerbs(c *C) {
+	// check that ru-verbs get the correct negative suffix
+	for i := range s.RuVerbs {
+		v := s.RuVerbs[i]
+		t := ruVerbs[i]
+		long_word := v.Long()
+		c.Check(long_word.kanji, Equals, t.long_kanji)
+		c.Check(long_word.kana, Equals, t.long_kana)
+	}
+}
+
+func (s *JapaneseSuite) TestLongNegativeRuVerbs(c *C) {
+	// check that ru-verbs get the correct negative suffix
+	for i := range s.RuVerbs {
+		v := s.RuVerbs[i]
+		t := ruVerbs[i]
+		long_neg_word := v.LongNegative()
+		c.Check(long_neg_word.kanji, Equals, t.long_neg_kanji)
+		c.Check(long_neg_word.kana, Equals, t.long_neg_kana)
+	}
+}
+
+func (s *JapaneseSuite) TestLongPastRuVerbs(c *C) {
+	// check that ru-verbs get the correct negative suffix
+	for i := range s.RuVerbs {
+		v := s.RuVerbs[i]
+		t := ruVerbs[i]
+		long_past_word := v.LongPast()
+		c.Check(long_past_word.kanji, Equals, t.long_past_kanji)
+		c.Check(long_past_word.kana, Equals, t.long_past_kana)
+	}
+}
+
 func (s *JapaneseSuite) TestNegativeUVerbs(c *C) {
 	// check that ru-verbs get the correct negative suffix
 	for _, verb := range uVerbs {
@@ -130,6 +163,39 @@ func (s *JapaneseSuite) TestPastUVerbs(c *C) {
 	}
 }
 
+func (s *JapaneseSuite) TestLongUVerbs(c *C) {
+	// check that ru-verbs get the correct negative suffix
+	for i := range s.UVerbs {
+		v := s.UVerbs[i]
+		t := UVerbs[i]
+		long_word := v.Long()
+		c.Check(long_word.kanji, Equals, t.long_kanji)
+		c.Check(long_word.kana, Equals, t.long_kana)
+	}
+}
+
+func (s *JapaneseSuite) TestLongNegativeUVerbs(c *C) {
+	// check that ru-verbs get the correct negative suffix
+	for i := range s.UVerbs {
+		v := s.UVerbs[i]
+		t := UVerbs[i]
+		long_neg_word := v.LongNegative()
+		c.Check(long_neg_word.kanji, Equals, t.long_neg_kanji)
+		c.Check(long_neg_word.kana, Equals, t.long_neg_kana)
+	}
+}
+
+func (s *JapaneseSuite) TestLongPastUVerbs(c *C) {
+	// check that ru-verbs get the correct negative suffix
+	for i := range s.UVerbs {
+		v := s.UVerbs[i]
+		t := UVerbs[i]
+		long_past_word := v.LongPast()
+		c.Check(long_past_word.kanji, Equals, t.long_past_kanji)
+		c.Check(long_past_word.kana, Equals, t.long_past_kana)
+	}
+}
+
 func (s *JapaneseSuite) TestNegativeExceptionVerbs(c *C) {
 	// check that exception-verbs get the correct negative suffix
 	for _, verb := range exceptionVerbs {
@@ -148,5 +214,35 @@ func (s *JapaneseSuite) TestPastExceptionVerbs(c *C) {
 		past_word := v.Past()
 		c.Check(past_word.kanji, Equals, t.past_kanji)
 		c.Check(past_word.kana, Equals, t.past_kana)
+	}
+}
+
+func (s *JapaneseSuite) TestLongExceptionVerbs(c *C) {
+	for i := range s.ExceptionVerbs {
+		v := s.ExceptionVerbs[i]
+		t := exceptionVerbs[i]
+		long_word := v.Long()
+		c.Check(long_word.kanji, Equals, t.long_kanji)
+		c.Check(long_word.kana, Equals, t.long_kana)
+	}
+}
+
+func (s *JapaneseSuite) TestLongNegativeExceptionVerbs(c *C) {
+	for i := range s.ExceptionVerbs {
+		v := s.ExceptionVerbs[i]
+		t := exceptionVerbs[i]
+		long_neg_word := v.Long()
+		c.Check(long_neg_word.kanji, Equals, t.long_neg)
+		c.Check(long_neg_word.kana, Equals, t.long_neg)
+	}
+}
+
+func (s *JapaneseSuite) TestLongPastExceptionVerbs(c *C) {
+	for i := range s.ExceptionVerbs {
+		v := s.ExceptionVerbs[i]
+		t := exceptionVerbs[i]
+		long_past_word := v.Long()
+		c.Check(long_past_word.kanji, Equals, t.long_past_kanji)
+		c.Check(long_past_word.kana, Equals, t.long_past_kana)
 	}
 }
