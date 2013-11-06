@@ -232,8 +232,8 @@ func (s *JapaneseSuite) TestLongNegativeExceptionVerbs(c *C) {
 		v := s.ExceptionVerbs[i]
 		t := exceptionVerbs[i]
 		long_neg_word := v.LongNegative()
-		c.Check(long_neg_word.kanji, Equals, t.long_neg)
-		c.Check(long_neg_word.kana, Equals, t.long_neg)
+		c.Check(long_neg_word.kanji, Equals, t.long_neg_kanji)
+		c.Check(long_neg_word.kana, Equals, t.long_neg_kana)
 	}
 }
 
