@@ -56,6 +56,38 @@ func (v *RuVerb) Past() Word {
 	return Word{restOfKanji + "た", restOfKana + "た"}
 }
 
+// ProgressivePostive returns the progressive postive
+// form of a RuVerb.
+func (v *RuVerb) ProgressivePositive() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "ている", k + "ている"}
+}
+
+// ProgressiveNegative returns the progressive negative
+// form of a RuVerb.
+func (v *RuVerb) ProgressiveNegative() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "ていない", k + "ていない"}
+}
+
+// ProgressivePositivePolite returns the progressive positive
+// polite form of a RuVerb.
+func (v *RuVerb) ProgressivePositivePolite() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "ています", k + "ています"}
+}
+
+// ProgressiveNegativePolite returns the progressive negative
+// polite form of a RuVerb.
+func (v *RuVerb) ProgressiveNegativePolite() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "ていません", k + "ていません"}
+}
+
 type UVerb struct {
 	Verb
 }
@@ -88,11 +120,8 @@ func (v *UVerb) Negative() Word {
 	return v.GetWord()
 }
 
+// Past gets the past-tense form of an U-verb
 func (v *UVerb) Past() Word {
-	/*
-		Get the past-tense form of an U-verb
-	*/
-
 	lastCharacter := v.GetLastKana()
 	restOfKanji, restOfKana := v.GetAllButLast()
 
