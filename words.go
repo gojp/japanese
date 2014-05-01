@@ -88,6 +88,22 @@ func (v *RuVerb) ProgressiveNegativePolite() Word {
 	return Word{r + "ていません", k + "ていません"}
 }
 
+// ProgressiveShort returns the shortened
+// progressive positive form of a RuVerb.
+func (v *RuVerb) ProgressiveShort() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "てる", k + "てる"}
+}
+
+// ProgressiveShortNegative returns the shortened
+// progressive negative form of a RuVerb.
+func (v *RuVerb) ProgressiveShortNegative() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "てない", k + "てない"}
+}
+
 type UVerb struct {
 	Verb
 }

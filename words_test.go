@@ -266,6 +266,8 @@ var ruProgressiveTests = []ruProgressiveTest{
 		{taberu.ProgressiveNegative, Word{"食べていない", "たべていない"}},
 		{taberu.ProgressivePolite, Word{"食べています", "たべています"}},
 		{taberu.ProgressiveNegativePolite, Word{"食べていません", "たべていません"}},
+		{taberu.ProgressiveShort, Word{"食べてる", "たべてる"}},
+		{taberu.ProgressiveShortNegative, Word{"食べてない", "たべてない"}},
 	}},
 }
 
