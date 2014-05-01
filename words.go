@@ -56,52 +56,46 @@ func (v *RuVerb) Past() Word {
 	return Word{restOfKanji + "た", restOfKana + "た"}
 }
 
+func (v *RuVerb) progressive(end string) Word {
+	w := v.TeForm()
+
+	return Word{w.kanji + end, w.kana + end}
+}
+
 // Progressive returns the progressive postive
 // form of a RuVerb.
 func (v *RuVerb) Progressive() Word {
-	w := v.TeForm()
-
-	return Word{w.kanji + "いる", w.kana + "いる"}
+	return v.progressive("いる")
 }
 
 // ProgressiveNegative returns the progressive negative
 // form of a RuVerb.
 func (v *RuVerb) ProgressiveNegative() Word {
-	w := v.TeForm()
-
-	return Word{w.kanji + "いない", w.kana + "いない"}
+	return v.progressive("いない")
 }
 
 // ProgressivePolite returns the progressive positive
 // polite form of a RuVerb.
 func (v *RuVerb) ProgressivePolite() Word {
-	w := v.TeForm()
-
-	return Word{w.kanji + "います", w.kana + "います"}
+	return v.progressive("います")
 }
 
 // ProgressiveNegativePolite returns the progressive negative
 // polite form of a RuVerb.
 func (v *RuVerb) ProgressiveNegativePolite() Word {
-	w := v.TeForm()
-
-	return Word{w.kanji + "いません", w.kana + "いません"}
+	return v.progressive("いません")
 }
 
 // ProgressiveShort returns the shortened
 // progressive positive form of a RuVerb.
 func (v *RuVerb) ProgressiveShort() Word {
-	w := v.TeForm()
-
-	return Word{w.kanji + "る", w.kana + "る"}
+	return v.progressive("る")
 }
 
 // ProgressiveShortNegative returns the shortened
 // progressive negative form of a RuVerb.
 func (v *RuVerb) ProgressiveShortNegative() Word {
-	w := v.TeForm()
-
-	return Word{w.kanji + "ない", w.kana + "ない"}
+	return v.progressive("ない")
 }
 
 type UVerb struct {
