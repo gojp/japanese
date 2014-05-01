@@ -245,8 +245,8 @@ type progressiveTest struct {
 }
 
 var (
-	taberu = RuVerb{Verb{Word{"食べる", "たべる"}}}
-	miru   = RuVerb{Verb{Word{"見る", "みる"}}}
+	taberu = Verb{"る", Word{"食べる", "たべる"}}
+	miru   = Verb{"る", Word{"見る", "みる"}}
 )
 
 var ruProgressiveTests = []progressiveTest{
@@ -286,7 +286,7 @@ func TestRuProgressive(t *testing.T) {
 }
 
 var (
-	hanasu = UVerb{Verb{Word{"話す", "はなす"}}}
+	hanasu = Verb{"う", Word{"話す", "はなす"}}
 )
 
 var uProgressiveTests = []progressiveTest{
