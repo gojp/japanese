@@ -44,7 +44,7 @@ func (v *RuVerb) TeForm() Word {
 	return Word{r + "て", k + "て"}
 }
 
-func (v *RuVerb) Negative() Word {
+func (v *Verb) Negative() Word {
 	// drop the る and attach ない
 	restOfKanji, restOfKana := v.GetAllButLast()
 	return Word{restOfKanji + "ない", restOfKana + "ない"}
@@ -177,6 +177,45 @@ func (v *ExceptionVerb) Past() Word {
 		return Word{"きた", "きた"}
 	}
 	return v.GetWord()
+}
+
+func (v *UVerb) te(end string) Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + end, k + end}
+}
+
+func (v *UVerb) TeForm() Word {
+	l := v.GetLastKana()
+
+	if v.kanji == "行く" {
+		return v.te("って")
+	}
+
+	switch l {
+	case "す":
+		return v.te("して")
+	case "く", "ぐ":
+		return v.te("いて")
+	case "む", "ぶ", "ぬ":
+		return v.te("んで")
+	case "る", "う", "つ":
+		return v.te("って")
+	default:
+		return v.GetWord()
+	}
+}
+
+func (v *UVerb) progressive(end string) Word {
+	w := v.TeForm()
+
+	return Word{w.kanji + end, w.kana + end}
+}
+
+// Progressive returns the progressive postive
+// form of a UVerb.
+func (v *UVerb) Progressive() Word {
+	return v.progressive("いる")
 }
 
 /* === ADJECTIVES === */
