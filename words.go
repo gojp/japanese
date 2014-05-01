@@ -69,6 +69,13 @@ func (v *Verb) TeForm() Word {
 }
 
 func (v *Verb) Negative() Word {
+	switch v.kanji {
+	case "する":
+		return Word{"しない", "しない"}
+	case "くる":
+		return Word{"こない", "こない"}
+	}
+
 	switch v.Type {
 	case "る":
 		return v.addEnd("ない")
@@ -102,6 +109,13 @@ func (v *Verb) Negative() Word {
 
 // Past returns the past tense of a Verb.
 func (v *Verb) Past() Word {
+	switch v.kanji {
+	case "する":
+		return Word{"した", "した"}
+	case "くる":
+		return Word{"きた", "きた"}
+	}
+
 	switch v.Type {
 	case "る":
 		return v.addEnd("た")
@@ -172,31 +186,6 @@ func (v *Verb) ProgressiveShort() Word {
 func (v *Verb) ProgressiveShortNegative() Word {
 	return v.progressive("ない")
 }
-
-//
-//type ExceptionVerb struct {
-//	Verb
-//}
-//
-//func (v *ExceptionVerb) Negative() Word {
-//	switch v.kanji {
-//	case "する":
-//		return Word{"しない", "しない"}
-//	case "くる":
-//		return Word{"こない", "こない"}
-//	}
-//	return v.GetWord()
-//}
-//
-//func (v *ExceptionVerb) Past() Word {
-//	if v.kanji == "する" {
-//		return Word{"した", "した"}
-//	}
-//	if v.kanji == "くる" {
-//		return Word{"きた", "きた"}
-//	}
-//	return v.GetWord()
-//}
 
 /* === ADJECTIVES === */
 
