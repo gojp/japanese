@@ -258,7 +258,10 @@ type ruProgressiveTest struct {
 	tests []funcToWord
 }
 
-var taberu = RuVerb{Verb{Word{"食べる", "たべる"}}}
+var (
+	taberu = RuVerb{Verb{Word{"食べる", "たべる"}}}
+	miru   = RuVerb{Verb{Word{"見る", "みる"}}}
+)
 
 var ruProgressiveTests = []ruProgressiveTest{
 	{taberu, []funcToWord{
@@ -268,6 +271,14 @@ var ruProgressiveTests = []ruProgressiveTest{
 		{taberu.ProgressiveNegativePolite, Word{"食べていません", "たべていません"}},
 		{taberu.ProgressiveShort, Word{"食べてる", "たべてる"}},
 		{taberu.ProgressiveShortNegative, Word{"食べてない", "たべてない"}},
+	}},
+	{taberu, []funcToWord{
+		{miru.Progressive, Word{"見ている", "みている"}},
+		{miru.ProgressiveNegative, Word{"見ていない", "みていない"}},
+		{miru.ProgressivePolite, Word{"見ています", "みています"}},
+		{miru.ProgressiveNegativePolite, Word{"見ていません", "みていません"}},
+		{miru.ProgressiveShort, Word{"見てる", "みてる"}},
+		{miru.ProgressiveShortNegative, Word{"見てない", "みてない"}},
 	}},
 }
 
