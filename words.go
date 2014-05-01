@@ -1,16 +1,10 @@
 package japanese
 
-import "fmt"
-
 /* === WORDS === */
 
 type Word struct {
 	kanji string
 	kana  string
-}
-
-func (w *Word) Print() {
-	fmt.Println(w.kana, w.kanji)
 }
 
 func (w *Word) GetWord() Word {
@@ -44,6 +38,12 @@ type RuVerb struct {
 	Verb
 }
 
+func (v *RuVerb) TeForm() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "て", k + "て"}
+}
+
 func (v *RuVerb) Negative() Word {
 	// drop the る and attach ない
 	restOfKanji, restOfKana := v.GetAllButLast()
@@ -59,49 +59,49 @@ func (v *RuVerb) Past() Word {
 // Progressive returns the progressive postive
 // form of a RuVerb.
 func (v *RuVerb) Progressive() Word {
-	r, k := v.GetAllButLast()
+	w := v.TeForm()
 
-	return Word{r + "ている", k + "ている"}
+	return Word{w.kanji + "いる", w.kana + "いる"}
 }
 
 // ProgressiveNegative returns the progressive negative
 // form of a RuVerb.
 func (v *RuVerb) ProgressiveNegative() Word {
-	r, k := v.GetAllButLast()
+	w := v.TeForm()
 
-	return Word{r + "ていない", k + "ていない"}
+	return Word{w.kanji + "いない", w.kana + "いない"}
 }
 
 // ProgressivePolite returns the progressive positive
 // polite form of a RuVerb.
 func (v *RuVerb) ProgressivePolite() Word {
-	r, k := v.GetAllButLast()
+	w := v.TeForm()
 
-	return Word{r + "ています", k + "ています"}
+	return Word{w.kanji + "います", w.kana + "います"}
 }
 
 // ProgressiveNegativePolite returns the progressive negative
 // polite form of a RuVerb.
 func (v *RuVerb) ProgressiveNegativePolite() Word {
-	r, k := v.GetAllButLast()
+	w := v.TeForm()
 
-	return Word{r + "ていません", k + "ていません"}
+	return Word{w.kanji + "いません", w.kana + "いません"}
 }
 
 // ProgressiveShort returns the shortened
 // progressive positive form of a RuVerb.
 func (v *RuVerb) ProgressiveShort() Word {
-	r, k := v.GetAllButLast()
+	w := v.TeForm()
 
-	return Word{r + "てる", k + "てる"}
+	return Word{w.kanji + "る", w.kana + "る"}
 }
 
 // ProgressiveShortNegative returns the shortened
 // progressive negative form of a RuVerb.
 func (v *RuVerb) ProgressiveShortNegative() Word {
-	r, k := v.GetAllButLast()
+	w := v.TeForm()
 
-	return Word{r + "てない", k + "てない"}
+	return Word{w.kanji + "ない", w.kana + "ない"}
 }
 
 type UVerb struct {
