@@ -56,9 +56,9 @@ func (v *RuVerb) Past() Word {
 	return Word{restOfKanji + "た", restOfKana + "た"}
 }
 
-// ProgressivePostive returns the progressive postive
+// Progressive returns the progressive postive
 // form of a RuVerb.
-func (v *RuVerb) ProgressivePositive() Word {
+func (v *RuVerb) Progressive() Word {
 	r, k := v.GetAllButLast()
 
 	return Word{r + "ている", k + "ている"}
@@ -72,9 +72,9 @@ func (v *RuVerb) ProgressiveNegative() Word {
 	return Word{r + "ていない", k + "ていない"}
 }
 
-// ProgressivePositivePolite returns the progressive positive
+// ProgressivePolite returns the progressive positive
 // polite form of a RuVerb.
-func (v *RuVerb) ProgressivePositivePolite() Word {
+func (v *RuVerb) ProgressivePolite() Word {
 	r, k := v.GetAllButLast()
 
 	return Word{r + "ています", k + "ています"}
