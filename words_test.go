@@ -270,7 +270,7 @@ func functionName(i interface{}) string {
 }
 
 func testProgressive(t *testing.T, p []progressiveTest) {
-	for _, tt := range ruProgressiveTests {
+	for _, tt := range p {
 		if got := tt.f(); got.kanji != tt.w.kanji {
 			t.Errorf("%s kanji = %s, want %s", functionName(tt.f), got.kanji, tt.w.kanji)
 		}
@@ -291,13 +291,13 @@ var (
 
 var uProgressiveTests = []progressiveTest{
 	{hanasu.Progressive, Word{"話している", "はなしている"}},
-	//{hanasu.ProgressiveNegative, Word{"話していない", "はなしていない"}},
-	//{hanasu.ProgressivePolite, Word{"話しています", "はなしています"}},
-	//{hanasu.ProgressiveNegativePolite, Word{"話していません", "はなしていません"}},
-	//{hanasu.ProgressiveShort, Word{"話してる", "話してる"}},
-	//{hanasu.ProgressiveShortNegative, Word{"話してない", "はなしてない"}},
+	{hanasu.ProgressiveNegative, Word{"話していない", "はなしていない"}},
+	{hanasu.ProgressivePolite, Word{"話しています", "はなしています"}},
+	{hanasu.ProgressiveNegativePolite, Word{"話していません", "はなしていません"}},
+	{hanasu.ProgressiveShort, Word{"話してる", "はなしてる"}},
+	{hanasu.ProgressiveShortNegative, Word{"話してない", "はなしてない"}},
 }
 
 func TestUProgressive(t *testing.T) {
-	testProgressive(t, ruProgressiveTests)
+	testProgressive(t, uProgressiveTests)
 }
