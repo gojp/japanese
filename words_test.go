@@ -1,9 +1,10 @@
 package japanese
 
-// import (
-// 	. "launchpad.net/gocheck"
-// 	"testing"
-// )
+import (
+	"reflect"
+	"runtime"
+	"testing"
+)
 
 // // Hook up gocheck into the "go test" runner.
 // func Test(t *testing.T) { TestingT(t) }
@@ -246,3 +247,54 @@ package japanese
 // 		c.Check(long_past_word.kana, Equals, t.long_past_kana)
 // 	}
 // }
+
+type funcToWord struct {
+	f func() Word
+	w Word
+}
+
+type ruProgressiveTest struct {
+	w     RuVerb
+	tests []funcToWord
+}
+
+var (
+	taberu = RuVerb{Verb{Word{"食べる", "たべる"}}}
+	miru   = RuVerb{Verb{Word{"見る", "みる"}}}
+)
+
+var ruProgressiveTests = []ruProgressiveTest{
+	{taberu, []funcToWord{
+		{taberu.Progressive, Word{"食べている", "たべている"}},
+		{taberu.ProgressiveNegative, Word{"食べていない", "たべていない"}},
+		{taberu.ProgressivePolite, Word{"食べています", "たべています"}},
+		{taberu.ProgressiveNegativePolite, Word{"食べていません", "たべていません"}},
+		{taberu.ProgressiveShort, Word{"食べてる", "たべてる"}},
+		{taberu.ProgressiveShortNegative, Word{"食べてない", "たべてない"}},
+	}},
+	{taberu, []funcToWord{
+		{miru.Progressive, Word{"見ている", "みている"}},
+		{miru.ProgressiveNegative, Word{"見ていない", "みていない"}},
+		{miru.ProgressivePolite, Word{"見ています", "みています"}},
+		{miru.ProgressiveNegativePolite, Word{"見ていません", "みていません"}},
+		{miru.ProgressiveShort, Word{"見てる", "みてる"}},
+		{miru.ProgressiveShortNegative, Word{"見てない", "みてない"}},
+	}},
+}
+
+func functionName(i interface{}) string {
+	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
+}
+
+func TestProgressivePositive(t *testing.T) {
+	for _, tt := range ruProgressiveTests {
+		for _, test := range tt.tests {
+			if got := test.f(); got.kanji != test.w.kanji {
+				t.Errorf("%s kanji = %s, want %s", functionName(test.f), got.kanji, test.w.kanji)
+			}
+			if got := test.f(); got.kana != test.w.kana {
+				t.Errorf("%s kana = %s, want %s", functionName(test.f), got.kana, test.w.kana)
+			}
+		}
+	}
+}

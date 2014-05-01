@@ -1,16 +1,10 @@
 package japanese
 
-import "fmt"
-
 /* === WORDS === */
 
 type Word struct {
 	kanji string
 	kana  string
-}
-
-func (w *Word) Print() {
-	fmt.Println(w.kana, w.kanji)
 }
 
 func (w *Word) GetWord() Word {
@@ -44,6 +38,12 @@ type RuVerb struct {
 	Verb
 }
 
+func (v *RuVerb) TeForm() Word {
+	r, k := v.GetAllButLast()
+
+	return Word{r + "て", k + "て"}
+}
+
 func (v *RuVerb) Negative() Word {
 	// drop the る and attach ない
 	restOfKanji, restOfKana := v.GetAllButLast()
@@ -54,6 +54,48 @@ func (v *RuVerb) Past() Word {
 	// drop the る and attach た
 	restOfKanji, restOfKana := v.GetAllButLast()
 	return Word{restOfKanji + "た", restOfKana + "た"}
+}
+
+func (v *RuVerb) progressive(end string) Word {
+	w := v.TeForm()
+
+	return Word{w.kanji + end, w.kana + end}
+}
+
+// Progressive returns the progressive postive
+// form of a RuVerb.
+func (v *RuVerb) Progressive() Word {
+	return v.progressive("いる")
+}
+
+// ProgressiveNegative returns the progressive negative
+// form of a RuVerb.
+func (v *RuVerb) ProgressiveNegative() Word {
+	return v.progressive("いない")
+}
+
+// ProgressivePolite returns the progressive positive
+// polite form of a RuVerb.
+func (v *RuVerb) ProgressivePolite() Word {
+	return v.progressive("います")
+}
+
+// ProgressiveNegativePolite returns the progressive negative
+// polite form of a RuVerb.
+func (v *RuVerb) ProgressiveNegativePolite() Word {
+	return v.progressive("いません")
+}
+
+// ProgressiveShort returns the shortened
+// progressive positive form of a RuVerb.
+func (v *RuVerb) ProgressiveShort() Word {
+	return v.progressive("る")
+}
+
+// ProgressiveShortNegative returns the shortened
+// progressive negative form of a RuVerb.
+func (v *RuVerb) ProgressiveShortNegative() Word {
+	return v.progressive("ない")
 }
 
 type UVerb struct {
@@ -88,11 +130,8 @@ func (v *UVerb) Negative() Word {
 	return v.GetWord()
 }
 
+// Past gets the past-tense form of an U-verb
 func (v *UVerb) Past() Word {
-	/*
-		Get the past-tense form of an U-verb
-	*/
-
 	lastCharacter := v.GetLastKana()
 	restOfKanji, restOfKana := v.GetAllButLast()
 

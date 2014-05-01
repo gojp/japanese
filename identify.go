@@ -79,19 +79,21 @@ type FormEnding struct {
 	endings []string
 }
 
-var PresentIndicativeEnding = FormEnding{PresentIndicative, []string{Ru, U, Masu, Nai, Masen}}
-var PresumptiveEnding = FormEnding{Presumptive, []string{You, Darou, Naidarou, Mashou, Rudeshou, Naideshou}}
-var ImperativeEnding = FormEnding{Imperative, []string{Ro, Kudasai, Naidekudasai, Na}}
-var PastIndicativeEnding = FormEnding{PastIndicative, []string{Ta, Mashita, Katta, Nakatta, MasenDeshita}}
-var PastPresumptiveEnding = FormEnding{PastPresumptive, []string{Tarou, Tadarou, Nakattadarou, Tadeshou, Nakattadeshou}}
-var PresentProgressiveEnding = FormEnding{}
-var PastProgressiveEnding = FormEnding{}
-var ProvisionalEnding = FormEnding{}
-var ConditionalEnding = FormEnding{}
-var PotentialEnding = FormEnding{}
-var CausativeEnding = FormEnding{}
-var InfinitiveEnding = FormEnding{}
-var TeFormEnding = FormEnding{TeForm, []string{Te}}
+var (
+	PresentIndicativeEnding  = FormEnding{PresentIndicative, []string{Ru, U, Masu, Nai, Masen}}
+	PresumptiveEnding        = FormEnding{Presumptive, []string{You, Darou, Naidarou, Mashou, Rudeshou, Naideshou}}
+	ImperativeEnding         = FormEnding{Imperative, []string{Ro, Kudasai, Naidekudasai, Na}}
+	PastIndicativeEnding     = FormEnding{PastIndicative, []string{Ta, Mashita, Katta, Nakatta, MasenDeshita}}
+	PastPresumptiveEnding    = FormEnding{PastPresumptive, []string{Tarou, Tadarou, Nakattadarou, Tadeshou, Nakattadeshou}}
+	PresentProgressiveEnding = FormEnding{}
+	PastProgressiveEnding    = FormEnding{}
+	ProvisionalEnding        = FormEnding{}
+	ConditionalEnding        = FormEnding{}
+	PotentialEnding          = FormEnding{}
+	CausativeEnding          = FormEnding{}
+	InfinitiveEnding         = FormEnding{}
+	TeFormEnding             = FormEnding{TeForm, []string{Te}}
+)
 
 var EndingForms = []FormEnding{
 	TeFormEnding,
