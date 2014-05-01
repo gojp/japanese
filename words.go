@@ -55,8 +55,10 @@ func (v *Verb) TeForm() Word {
 		switch l {
 		case "す":
 			return v.addEnd("して")
-		case "く", "ぐ":
+		case "く":
 			return v.addEnd("いて")
+		case "ぐ":
+			return v.addEnd("いで")
 		case "む", "ぶ", "ぬ":
 			return v.addEnd("んで")
 		case "る", "う", "つ":

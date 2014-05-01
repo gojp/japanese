@@ -287,11 +287,15 @@ func TestRuProgressive(t *testing.T) {
 
 var (
 	hanasu = Verb{"う", Word{"話す", "はなす"}}
+	kaku   = Verb{"う", Word{"書く", "かく"}}
+	oyogu  = Verb{"う", Word{"泳ぐ", "およぐ"}}
 	nomu   = Verb{"う", Word{"飲む", "のむ"}}
 	asobu  = Verb{"う", Word{"遊ぶ", "あそぶ"}}
 	shinu  = Verb{"う", Word{"死ぬ", "しぬ"}}
 	kiru   = Verb{"う", Word{"切る", "きる"}}
 	kau    = Verb{"う", Word{"買う", "かう"}}
+	motsu  = Verb{"う", Word{"持つ", "もつ"}}
+	iku    = Verb{"う", Word{"行く", "いく"}}
 )
 
 var uProgressiveTests = []progressiveTest{
@@ -301,6 +305,20 @@ var uProgressiveTests = []progressiveTest{
 	{hanasu.ProgressiveNegativePolite, Word{"話していません", "はなしていません"}},
 	{hanasu.ProgressiveShort, Word{"話してる", "はなしてる"}},
 	{hanasu.ProgressiveShortNegative, Word{"話してない", "はなしてない"}},
+
+	{kaku.Progressive, Word{"書いている", "かいている"}},
+	{kaku.ProgressiveNegative, Word{"書いていない", "かいていない"}},
+	{kaku.ProgressivePolite, Word{"書いています", "かいています"}},
+	{kaku.ProgressiveNegativePolite, Word{"書いていません", "かいていません"}},
+	{kaku.ProgressiveShort, Word{"書いてる", "かいてる"}},
+	{kaku.ProgressiveShortNegative, Word{"書いてない", "かいてない"}},
+
+	{oyogu.Progressive, Word{"泳いでいる", "およいでいる"}},
+	{oyogu.ProgressiveNegative, Word{"泳いでいない", "およいでいない"}},
+	{oyogu.ProgressivePolite, Word{"泳いでいます", "およいでいます"}},
+	{oyogu.ProgressiveNegativePolite, Word{"泳いでいません", "およいでいません"}},
+	{oyogu.ProgressiveShort, Word{"泳いでる", "およいでる"}},
+	{oyogu.ProgressiveShortNegative, Word{"泳いでない", "およいでない"}},
 
 	{nomu.Progressive, Word{"飲んでいる", "のんでいる"}},
 	{nomu.ProgressiveNegative, Word{"飲んでいない", "のんでいない"}},
@@ -336,6 +354,20 @@ var uProgressiveTests = []progressiveTest{
 	{kau.ProgressiveNegativePolite, Word{"買っていません", "かっていません"}},
 	{kau.ProgressiveShort, Word{"買ってる", "かってる"}},
 	{kau.ProgressiveShortNegative, Word{"買ってない", "かってない"}},
+
+	{motsu.Progressive, Word{"持っている", "もっている"}},
+	{motsu.ProgressiveNegative, Word{"持っていない", "もっていない"}},
+	{motsu.ProgressivePolite, Word{"持っています", "もっています"}},
+	{motsu.ProgressiveNegativePolite, Word{"持っていません", "もっていません"}},
+	{motsu.ProgressiveShort, Word{"持ってる", "もってる"}},
+	{motsu.ProgressiveShortNegative, Word{"持ってない", "もってない"}},
+
+	{iku.Progressive, Word{"行っている", "いっている"}},
+	{iku.ProgressiveNegative, Word{"行っていない", "いっていない"}},
+	{iku.ProgressivePolite, Word{"行っています", "いっています"}},
+	{iku.ProgressiveNegativePolite, Word{"行っていません", "いっていません"}},
+	{iku.ProgressiveShort, Word{"行ってる", "いってる"}},
+	{iku.ProgressiveShortNegative, Word{"行ってない", "いってない"}},
 }
 
 func TestUProgressive(t *testing.T) {
