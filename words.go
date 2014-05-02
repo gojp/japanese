@@ -94,14 +94,10 @@ func (v *Verb) Negative() Word {
 			return v.addEnd("わない")
 			// otherwise replace with the -a equivalent
 		} else {
-			original := []string{"つ", "く", "ゅ", "す", "ぬ", "ふ", "む", "ゆ", "ぐ", "ず", "づ", "ぶ", "ぷ", "る"}
-			replace := []string{"た", "か", "ゃ", "さ", "な", "は", "ま", "や", "が", "ざ", "ざ", "ば", "ぱ", "ら"}
-			for i, o := range original {
-				if o == lastKana {
-					extra := replace[i] + "ない"
-					return v.addEnd(extra)
-				}
-			}
+			m := map[string]string{
+				"つ": "た", "く": "か", "ゅ": "ゃ", "す": "さ", "ぬ": "な", "ふ": "は", "む": "ま", "ゆ": "や", "ぐ": "が", "ず": "ざ", "づ": "ざ", "ぶ": "ば", "ぷ": "ぱ", "る": "ら"}
+			extra := m[lastKana] + "ない"
+			return v.addEnd(extra)
 		}
 		// return original word if all else fails
 		return v.GetWord()
