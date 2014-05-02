@@ -239,7 +239,7 @@ import (
 // 	}
 // }
 
-type progressiveTest struct {
+type verbTest struct {
 	f func() Word
 	w Word
 }
@@ -249,7 +249,7 @@ var (
 	miru   = Verb{"る", Word{"見る", "みる"}}
 )
 
-var ruProgressiveTests = []progressiveTest{
+var ruProgressiveTests = []verbTest{
 	{taberu.Progressive, Word{"食べている", "たべている"}},
 	{taberu.ProgressiveNegative, Word{"食べていない", "たべていない"}},
 	{taberu.ProgressivePolite, Word{"食べています", "たべています"}},
@@ -269,7 +269,7 @@ func functionName(i interface{}) string {
 	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
 }
 
-func testProgressive(t *testing.T, p []progressiveTest) {
+func testVerb(t *testing.T, p []verbTest) {
 	for _, tt := range p {
 		if got := tt.f(); got.kanji != tt.w.kanji {
 			t.Errorf("%s kanji = %s, want %s", functionName(tt.f), got.kanji, tt.w.kanji)
@@ -282,7 +282,7 @@ func testProgressive(t *testing.T, p []progressiveTest) {
 }
 
 func TestRuProgressive(t *testing.T) {
-	testProgressive(t, ruProgressiveTests)
+	testVerb(t, ruProgressiveTests)
 }
 
 var (
@@ -298,7 +298,7 @@ var (
 	iku    = Verb{"う", Word{"行く", "いく"}}
 )
 
-var uProgressiveTests = []progressiveTest{
+var uProgressiveTests = []verbTest{
 	{hanasu.Progressive, Word{"話している", "はなしている"}},
 	{hanasu.ProgressiveNegative, Word{"話していない", "はなしていない"}},
 	{hanasu.ProgressivePolite, Word{"話しています", "はなしています"}},
@@ -371,5 +371,24 @@ var uProgressiveTests = []progressiveTest{
 }
 
 func TestUProgressive(t *testing.T) {
-	testProgressive(t, uProgressiveTests)
+	testVerb(t, uProgressiveTests)
+}
+
+var negativeTests = []verbTest{
+	{taberu.Negative, Word{"食べない", "たべない"}},
+	{miru.Negative, Word{"見ない", "みない"}},
+	{hanasu.Negative, Word{"話さない", "はなさない"}},
+	{kaku.Negative, Word{"書かない", "かかない"}},
+	{oyogu.Negative, Word{"泳がない", "およがない"}},
+	{nomu.Negative, Word{"飲まない", "のまない"}},
+	{asobu.Negative, Word{"遊ばない", "あそばない"}},
+	{shinu.Negative, Word{"死なない", "しなない"}},
+	{kiru.Negative, Word{"切らない", "きらない"}},
+	{kau.Negative, Word{"買わない", "かわない"}},
+	{motsu.Negative, Word{"持たない", "もたない"}},
+	{iku.Negative, Word{"行かない", "いかない"}},
+}
+
+func TestNegative(t *testing.T) {
+	testVerb(t, negativeTests)
 }
