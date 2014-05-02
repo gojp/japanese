@@ -29,7 +29,7 @@ func verbify(word string) (verb string, err error) {
 		"し": "す",
 	}
 	wr := []rune(word)
-	last, wr := string(wr[len(wr)-1:len(wr)]), wr[:len(wr)-1]
+	last, wr := string(wr[len(wr)-1:]), wr[:len(wr)-1]
 	u, ok := conv[string(last)]
 	if ok {
 		return string(wr) + u, nil

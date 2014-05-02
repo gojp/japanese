@@ -31,152 +31,161 @@ func (w *Word) GetAllButLast() (kanji, kana string) {
 /* === VERBS === */
 
 type Verb struct {
+	Type string
 	Word
 }
 
-type RuVerb struct {
-	Verb
-}
-
-func (v *RuVerb) TeForm() Word {
+func (v *Verb) addEnd(end string) Word {
 	r, k := v.GetAllButLast()
 
-	return Word{r + "て", k + "て"}
+	return Word{r + end, k + end}
 }
 
-func (v *RuVerb) Negative() Word {
-	// drop the る and attach ない
-	restOfKanji, restOfKana := v.GetAllButLast()
-	return Word{restOfKanji + "ない", restOfKana + "ない"}
-}
+func (v *Verb) TeForm() Word {
+	switch v.Type {
+	case "る":
+		return v.addEnd("て")
+	case "う":
+		l := v.GetLastKana()
 
-func (v *RuVerb) Past() Word {
-	// drop the る and attach た
-	restOfKanji, restOfKana := v.GetAllButLast()
-	return Word{restOfKanji + "た", restOfKana + "た"}
-}
+		if v.kanji == "行く" {
+			return v.addEnd("って")
+		}
 
-func (v *RuVerb) progressive(end string) Word {
-	w := v.TeForm()
-
-	return Word{w.kanji + end, w.kana + end}
-}
-
-// Progressive returns the progressive postive
-// form of a RuVerb.
-func (v *RuVerb) Progressive() Word {
-	return v.progressive("いる")
-}
-
-// ProgressiveNegative returns the progressive negative
-// form of a RuVerb.
-func (v *RuVerb) ProgressiveNegative() Word {
-	return v.progressive("いない")
-}
-
-// ProgressivePolite returns the progressive positive
-// polite form of a RuVerb.
-func (v *RuVerb) ProgressivePolite() Word {
-	return v.progressive("います")
-}
-
-// ProgressiveNegativePolite returns the progressive negative
-// polite form of a RuVerb.
-func (v *RuVerb) ProgressiveNegativePolite() Word {
-	return v.progressive("いません")
-}
-
-// ProgressiveShort returns the shortened
-// progressive positive form of a RuVerb.
-func (v *RuVerb) ProgressiveShort() Word {
-	return v.progressive("る")
-}
-
-// ProgressiveShortNegative returns the shortened
-// progressive negative form of a RuVerb.
-func (v *RuVerb) ProgressiveShortNegative() Word {
-	return v.progressive("ない")
-}
-
-type UVerb struct {
-	Verb
-}
-
-func (v *UVerb) Negative() Word {
-	lastCharacter := v.GetLastKana()
-	restOfKanji, restOfKana := v.GetAllButLast()
-
-	// one exception for case "ある":
-	if v.kanji == "ある" {
-		return Word{"ない", "ない"}
-	}
-
-	// if verb ends in う, replace う with わない
-	if lastCharacter == "う" {
-		extra := "わない"
-		return Word{restOfKanji + extra, restOfKana + extra}
-		// otherwise replace with the -a equivalent
-	} else {
-		original := []string{"つ", "く", "ゅ", "す", "ぬ", "ふ", "む", "ゆ", "ぐ", "ず", "づ", "ぶ", "ぷ", "る"}
-		replace := []string{"た", "か", "ゃ", "さ", "な", "は", "ま", "や", "が", "ざ", "ざ", "ば", "ぱ", "ら"}
-		for i, o := range original {
-			if o == lastCharacter {
-				extra := replace[i] + "ない"
-				return Word{restOfKanji + extra, restOfKana + extra}
-			}
+		switch l {
+		case "す":
+			return v.addEnd("して")
+		case "く":
+			return v.addEnd("いて")
+		case "ぐ":
+			return v.addEnd("いで")
+		case "む", "ぶ", "ぬ":
+			return v.addEnd("んで")
+		case "る", "う", "つ":
+			return v.addEnd("って")
+		default:
+			return v.GetWord()
 		}
 	}
-	// return original word if all else fails
 	return v.GetWord()
 }
 
-// Past gets the past-tense form of an U-verb
-func (v *UVerb) Past() Word {
-	lastCharacter := v.GetLastKana()
-	restOfKanji, restOfKana := v.GetAllButLast()
-
-	// 行く is only an exception for this rule
-	if v.kanji == "行く" {
-		return Word{"行った", "いった"}
-	}
-
-	switch lastCharacter {
-	case "す":
-		return Word{restOfKanji + "した", restOfKana + "した"}
-	case "く", "ぐ":
-		return Word{restOfKanji + "いた", restOfKana + "いた"}
-	case "む", "ぶ", "ぬ":
-		return Word{restOfKanji + "んだ", restOfKana + "んだ"}
-	case "る", "う", "つ":
-		return Word{restOfKanji + "った", restOfKana + "った"}
-	}
-
-	// otherwise we just return the same word, because we don't know what to do:
-	return v.GetWord()
-}
-
-type ExceptionVerb struct {
-	Verb
-}
-
-func (v *ExceptionVerb) Negative() Word {
+func (v *Verb) Negative() Word {
 	switch v.kanji {
 	case "する":
 		return Word{"しない", "しない"}
 	case "くる":
 		return Word{"こない", "こない"}
 	}
+
+	switch v.Type {
+	case "る":
+		return v.addEnd("ない")
+	case "う":
+		lastKana := v.GetLastKana()
+
+		// one exception for case "ある":
+		if v.kanji == "ある" {
+			return Word{"ない", "ない"}
+		}
+
+		// if verb ends in う, replace う with わない
+		if lastKana == "う" {
+			return v.addEnd("わない")
+			// otherwise replace with the -a equivalent
+		} else {
+			m := map[string]string{
+				"つ": "た", "く": "か", "ゅ": "ゃ", "す": "さ",
+				"ぬ": "な", "ふ": "は", "む": "ま", "ゆ": "や",
+				"ぐ": "が", "ず": "ざ", "づ": "ざ", "ぶ": "ば",
+				"ぷ": "ぱ", "る": "ら"}
+			extra := m[lastKana] + "ない"
+			return v.addEnd(extra)
+		}
+		// return original word if all else fails
+		return v.GetWord()
+	}
 	return v.GetWord()
 }
 
-func (v *ExceptionVerb) Past() Word {
-	if v.kanji == "する" {
+// Past returns the past tense of a Verb.
+func (v *Verb) Past() Word {
+	switch v.kanji {
+	case "する":
 		return Word{"した", "した"}
-	}
-	if v.kanji == "くる" {
+	case "くる":
 		return Word{"きた", "きた"}
 	}
+
+	switch v.Type {
+	case "る":
+		return v.addEnd("た")
+	case "う":
+
+		lastKana := v.GetLastKana()
+
+		// 行く is only an exception for this rule
+		if v.kanji == "行く" {
+			return Word{"行った", "いった"}
+		}
+
+		switch lastKana {
+		case "す":
+			return v.addEnd("した")
+		case "く", "ぐ":
+			return v.addEnd("いた")
+		case "む", "ぶ", "ぬ":
+			return v.addEnd("んだ")
+		case "る", "う", "つ":
+			return v.addEnd("った")
+		}
+
+		// otherwise we just return the same word, because we don't know what to do:
+		return v.GetWord()
+	}
 	return v.GetWord()
+}
+
+func (v *Verb) progressive(end string) Word {
+	w := v.TeForm()
+
+	return Word{w.kanji + end, w.kana + end}
+}
+
+// Progressive returns the progressive postive
+// form of a Verb.
+func (v *Verb) Progressive() Word {
+	return v.progressive("いる")
+}
+
+// ProgressiveNegative returns the progressive negative
+// form of a Verb.
+func (v *Verb) ProgressiveNegative() Word {
+	return v.progressive("いない")
+}
+
+// ProgressivePolite returns the progressive positive
+// polite form of a Verb.
+func (v *Verb) ProgressivePolite() Word {
+	return v.progressive("います")
+}
+
+// ProgressiveNegativePolite returns the progressive negative
+// polite form of a Verb.
+func (v *Verb) ProgressiveNegativePolite() Word {
+	return v.progressive("いません")
+}
+
+// ProgressiveShort returns the shortened
+// progressive positive form of a Verb.
+func (v *Verb) ProgressiveShort() Word {
+	return v.progressive("る")
+}
+
+// ProgressiveShortNegative returns the shortened
+// progressive negative form of a Verb.
+func (v *Verb) ProgressiveShortNegative() Word {
+	return v.progressive("ない")
 }
 
 /* === ADJECTIVES === */
