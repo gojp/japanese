@@ -30,6 +30,86 @@ type Verb struct {
 	Word
 }
 
+// Stem returns the stem of a verb.
+func (v *Verb) Stem() Word {
+	switch v.kanji {
+	case "する":
+		return Word{"し", "し"}
+	case "来る":
+		return Word{"来", "き"}
+	}
+
+	r, k := v.AllButLast()
+	switch v.Type {
+	case "る":
+		return Word{r, k}
+	case "う":
+		lastKana := v.LastKana()
+
+		switch lastKana {
+		case "す":
+			return v.addEnd("し")
+		case "く":
+			return v.addEnd("き")
+		case "ぐ":
+			return v.addEnd("ぎ")
+		case "む":
+			return v.addEnd("み")
+		case "ぶ":
+			return v.addEnd("び")
+		case "ぬ":
+			return v.addEnd("に")
+		case "る":
+			return v.addEnd("り")
+		case "う":
+			return v.addEnd("い")
+		case "つ":
+			return v.addEnd("ち")
+		}
+	}
+	return v.Word
+}
+
+// ShortStem returns the short stem of a verb.
+func (v *Verb) ShortStem() Word {
+	switch v.kanji {
+	case "する":
+		return Word{"し", "し"}
+	case "来る":
+		return Word{"来", "こ"}
+	}
+
+	r, k := v.AllButLast()
+	switch v.Type {
+	case "る":
+		return Word{r, k}
+	case "う":
+		lastKana := v.LastKana()
+
+		switch lastKana {
+		case "す":
+			return v.addEnd("さ")
+		case "く":
+			return v.addEnd("か")
+		case "ぐ":
+			return v.addEnd("が")
+		case "む":
+			return v.addEnd("ま")
+		case "ぶ":
+			return v.addEnd("ば")
+		case "ぬ":
+			return v.addEnd("な")
+		case "る":
+			return v.addEnd("ら")
+		case "う":
+			return v.addEnd("わ")
+		case "つ":
+			return v.addEnd("た")
+		}
+	}
+	return v.Word
+}
+
 func (v *Verb) addEnd(end string) Word {
 	r, k := v.AllButLast()
 
@@ -74,33 +154,25 @@ func (v *Verb) TeForm() Word {
 // Negative returns the negative form of a Verb.
 func (v *Verb) Negative() Word {
 	switch v.kanji {
-	case "する":
-		return Word{"しない", "しない"}
-	case "来る":
-		return Word{"来ない", "こない"}
 	case "ある":
 		return Word{"ない", "ない"}
 	}
 
-	switch v.Type {
-	case "る":
-		return v.addEnd("ない")
-	case "う":
-		lastKana := v.LastKana()
+	w := v.ShortStem()
 
-		if lastKana == "う" {
-			return v.addEnd("わない")
-		} else {
-			m := map[string]string{
-				"つ": "た", "く": "か", "ゅ": "ゃ", "す": "さ",
-				"ぬ": "な", "ふ": "は", "む": "ま", "ゆ": "や",
-				"ぐ": "が", "ず": "ざ", "づ": "ざ", "ぶ": "ば",
-				"ぷ": "ぱ", "る": "ら"}
-			extra := m[lastKana] + "ない"
-			return v.addEnd(extra)
-		}
+	return Word{w.kanji + "ない", w.kana + "ない"}
+}
+
+// NegativePast returns the negative past form of a Verb.
+func (v *Verb) NegativePast() Word {
+	switch v.kanji {
+	case "ある":
+		return Word{"なかった", "なかった"}
 	}
-	return v.Word
+
+	w := v.ShortStem()
+
+	return Word{w.kanji + "なかった", w.kana + "なかった"}
 }
 
 // NegativePolite returns the negative polite form of a Verb.
@@ -146,46 +218,6 @@ func (v *Verb) Past() Word {
 			return v.addEnd("んだ")
 		case "る", "う", "つ":
 			return v.addEnd("った")
-		}
-	}
-	return v.Word
-}
-
-// Stem returns the stem of a verb.
-func (v *Verb) Stem() Word {
-	switch v.kanji {
-	case "する":
-		return Word{"し", "し"}
-	case "来る":
-		return Word{"来", "き"}
-	}
-
-	r, k := v.AllButLast()
-	switch v.Type {
-	case "る":
-		return Word{r, k}
-	case "う":
-		lastKana := v.LastKana()
-
-		switch lastKana {
-		case "す":
-			return v.addEnd("し")
-		case "く":
-			return v.addEnd("き")
-		case "ぐ":
-			return v.addEnd("ぎ")
-		case "む":
-			return v.addEnd("み")
-		case "ぶ":
-			return v.addEnd("び")
-		case "ぬ":
-			return v.addEnd("に")
-		case "る":
-			return v.addEnd("り")
-		case "う":
-			return v.addEnd("い")
-		case "つ":
-			return v.addEnd("ち")
 		}
 	}
 	return v.Word
