@@ -1,5 +1,7 @@
 package japanese
 
+import "fmt"
+
 /* === WORDS === */
 
 type Word struct {
@@ -30,29 +32,33 @@ type Verb struct {
 	Word
 }
 
-func (v *Verb) stem(u map[string]string) Word {
+func (v *Verb) stem(u map[string]string) (w Word, err error) {
 	switch v.kanji {
 	case "する":
-		return Word{"し", "し"}
+		return Word{"し", "し"}, nil
 	}
 
 	r, k := v.AllButLast()
 	switch v.Type {
 	case "る":
-		return Word{r, k}
+		return Word{r, k}, nil
 	case "う":
 		lastKana := v.LastKana()
 
-		return v.addEnd(u[lastKana])
+		if val, ok := u[lastKana]; !ok {
+			return w, fmt.Errorf("Attempt to get stem of U verb with invalid ending %s. Valid endings: %v", lastKana, u)
+		} else {
+			return v.addEnd(val), nil
+		}
 	}
-	return v.Word
+	return w, nil
 }
 
 // Stem returns the stem of a verb.
-func (v *Verb) Stem() Word {
+func (v *Verb) Stem() (w Word, err error) {
 	switch v.kanji {
 	case "来る":
-		return Word{"来", "き"}
+		return Word{"来", "き"}, nil
 	}
 
 	m := map[string]string{
@@ -67,14 +73,19 @@ func (v *Verb) Stem() Word {
 		"つ": "ち",
 	}
 
-	return v.stem(m)
+	word, err := v.stem(m)
+	if err != nil {
+		return w, err
+	}
+
+	return word, nil
 }
 
 // ShortStem returns the short stem of a verb.
-func (v *Verb) ShortStem() Word {
+func (v *Verb) ShortStem() (w Word, err error) {
 	switch v.kanji {
 	case "来る":
-		return Word{"来", "こ"}
+		return Word{"来", "こ"}, nil
 	}
 
 	m := map[string]string{
@@ -89,7 +100,12 @@ func (v *Verb) ShortStem() Word {
 		"つ": "た",
 	}
 
-	return v.stem(m)
+	word, err := v.stem(m)
+	if err != nil {
+		return w, err
+	}
+
+	return word, nil
 }
 
 func (v *Verb) addEnd(end string) Word {
@@ -99,159 +115,201 @@ func (v *Verb) addEnd(end string) Word {
 }
 
 // TeForm returns the te-form of a verb.
-func (v *Verb) TeForm() Word {
+func (v *Verb) TeForm() (word Word, err error) {
 	switch v.kanji {
 	case "する":
-		return Word{"して", "して"}
+		return Word{"して", "して"}, nil
 	case "来る":
-		return Word{"来て", "きて"}
+		return Word{"来て", "きて"}, nil
 	case "行く":
-		return v.addEnd("って")
+		return v.addEnd("って"), nil
 	}
 
 	switch v.Type {
 	case "る":
-		return v.addEnd("て")
+		return v.addEnd("て"), nil
 	case "う":
 		l := v.LastKana()
 
 		switch l {
 		case "す":
-			return v.addEnd("して")
+			return v.addEnd("して"), nil
 		case "く":
-			return v.addEnd("いて")
+			return v.addEnd("いて"), nil
 		case "ぐ":
-			return v.addEnd("いで")
+			return v.addEnd("いで"), nil
 		case "む", "ぶ", "ぬ":
-			return v.addEnd("んで")
+			return v.addEnd("んで"), nil
 		case "る", "う", "つ":
-			return v.addEnd("って")
+			return v.addEnd("って"), nil
 		default:
-			return v.Word
+			return word, fmt.Errorf("Attempt to get te form of verb with invalid ending %s.", l)
 		}
 	}
-	return v.Word
+	return word, fmt.Errorf("Attempt to get te form of verb with invalid ending")
 }
 
 // Negative returns the negative form of a Verb.
-func (v *Verb) Negative() Word {
+func (v *Verb) Negative() (word Word, err error) {
 	switch v.kanji {
 	case "ある":
-		return Word{"ない", "ない"}
+		return Word{"ない", "ない"}, nil
 	}
 
-	w := v.ShortStem()
+	w, err := v.ShortStem()
+	if err != nil {
+		return word, err
+	}
 
-	return Word{w.kanji + "ない", w.kana + "ない"}
+	return Word{w.kanji + "ない", w.kana + "ない"}, nil
 }
 
 // NegativePast returns the negative past form of a Verb.
-func (v *Verb) NegativePast() Word {
+func (v *Verb) NegativePast() (word Word, err error) {
 	switch v.kanji {
 	case "ある":
-		return Word{"なかった", "なかった"}
+		return Word{"なかった", "なかった"}, nil
 	}
 
-	w := v.ShortStem()
+	w, err := v.ShortStem()
+	if err != nil {
+		return word, err
+	}
 
-	return Word{w.kanji + "なかった", w.kana + "なかった"}
+	return Word{w.kanji + "なかった", w.kana + "なかった"}, nil
 }
 
 // NegativePolite returns the negative polite form of a Verb.
-func (v *Verb) NegativePolite() Word {
-	w := v.Stem()
+func (v *Verb) NegativePolite() (word Word, err error) {
+	w, err := v.Stem()
+	if err != nil {
+		return word, err
+	}
 
-	return Word{w.kanji + "ません", w.kana + "ません"}
+	return Word{w.kanji + "ません", w.kana + "ません"}, nil
 }
 
 // NegativePastPolite returns the negative past polite form of a Verb.
-func (v *Verb) NegativePastPolite() Word {
-	w := v.Stem()
+func (v *Verb) NegativePastPolite() (word Word, err error) {
+	w, err := v.Stem()
+	if err != nil {
+		return word, err
+	}
 
-	return Word{w.kanji + "ませんでした", w.kana + "ませんでした"}
+	return Word{w.kanji + "ませんでした", w.kana + "ませんでした"}, nil
 }
 
 // Past returns the past tense of a Verb.
-func (v *Verb) Past() Word {
+func (v *Verb) Past() (word Word, err error) {
 	switch v.kanji {
 	case "する":
-		return Word{"した", "した"}
+		return Word{"した", "した"}, nil
 	case "来る":
-		return Word{"来た", "きた"}
+		return Word{"来た", "きた"}, nil
 	case "行く":
-		return v.addEnd("った")
+		return v.addEnd("った"), nil
 	}
 
 	switch v.Type {
 	case "る":
-		return v.addEnd("た")
+		return v.addEnd("た"), nil
 	case "う":
 
 		lastKana := v.LastKana()
 
 		switch lastKana {
 		case "す":
-			return v.addEnd("した")
+			return v.addEnd("した"), nil
 		case "く":
-			return v.addEnd("いた")
+			return v.addEnd("いた"), nil
 		case "ぐ":
-			return v.addEnd("いだ")
+			return v.addEnd("いだ"), nil
 		case "む", "ぶ", "ぬ":
-			return v.addEnd("んだ")
+			return v.addEnd("んだ"), nil
 		case "る", "う", "つ":
-			return v.addEnd("った")
+			return v.addEnd("った"), nil
 		}
 	}
-	return v.Word
+	return v.Word, fmt.Errorf("Attempt to get past tense of non-verb")
 }
 
 // PastPolite returns the past polite tense of a Verb.
-func (v *Verb) PastPolite() Word {
-	w := v.Stem()
+func (v *Verb) PastPolite() (word Word, err error) {
+	w, err := v.Stem()
+	if err != nil {
+		return word, err
+	}
 
-	return Word{w.kanji + "ました", w.kana + "ました"}
+	return Word{w.kanji + "ました", w.kana + "ました"}, nil
 }
 
-func (v *Verb) te(end string) Word {
-	w := v.TeForm()
+func (v *Verb) te(end string) (word Word, err error) {
+	w, err := v.TeForm()
+	if err != nil {
+		return word, err
+	}
 
-	return Word{w.kanji + end, w.kana + end}
+	return Word{w.kanji + end, w.kana + end}, nil
 }
 
 // Progressive returns the te postive
 // form of a Verb.
-func (v *Verb) Progressive() Word {
-	return v.te("いる")
+func (v *Verb) Progressive() (word Word, err error) {
+	w, err := v.te("いる")
+	if err != nil {
+		return word, err
+	}
+	return w, nil
 }
 
 // ProgressiveNegative returns the te negative
 // form of a Verb.
-func (v *Verb) ProgressiveNegative() Word {
-	return v.te("いない")
+func (v *Verb) ProgressiveNegative() (word Word, err error) {
+	w, err := v.te("いない")
+	if err != nil {
+		return word, err
+	}
+	return w, nil
 }
 
 // ProgressivePolite returns the te positive
 // polite form of a Verb.
-func (v *Verb) ProgressivePolite() Word {
-	return v.te("います")
+func (v *Verb) ProgressivePolite() (word Word, err error) {
+	w, err := v.te("います")
+	if err != nil {
+		return word, err
+	}
+	return w, nil
 }
 
 // ProgressiveNegativePolite returns the te negative
 // polite form of a Verb.
-func (v *Verb) ProgressiveNegativePolite() Word {
-	return v.te("いません")
+func (v *Verb) ProgressiveNegativePolite() (word Word, err error) {
+	w, err := v.te("いません")
+	if err != nil {
+		return word, err
+	}
+	return w, nil
 }
 
 // ProgressiveShort returns the shortened
 // te positive form of a Verb.
-func (v *Verb) ProgressiveShort() Word {
-	return v.te("る")
+func (v *Verb) ProgressiveShort() (word Word, err error) {
+	w, err := v.te("る")
+	if err != nil {
+		return word, err
+	}
+	return w, nil
 }
 
 // ProgressiveShortNegative returns the shortened
 // te negative form of a Verb.
-func (v *Verb) ProgressiveShortNegative() Word {
-	return v.te("ない")
+func (v *Verb) ProgressiveShortNegative() (word Word, err error) {
+	w, err := v.te("ない")
+	if err != nil {
+		return word, err
+	}
+	return w, nil
 }
 
 /* === ADJECTIVES === */

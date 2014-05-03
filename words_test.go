@@ -7,7 +7,7 @@ import (
 )
 
 type verbTest struct {
-	f func() Word
+	f func() (Word, error)
 	w Word
 }
 
@@ -39,10 +39,14 @@ func functionName(i interface{}) string {
 
 func testVerb(t *testing.T, p []verbTest) {
 	for _, tt := range p {
-		if got := tt.f(); got.kanji != tt.w.kanji {
+		got, err := tt.f()
+		if err != nil {
+			t.Fatalf("%s error: %v", functionName(tt.f), err)
+		}
+		if got.kanji != tt.w.kanji {
 			t.Errorf("%s kanji = %s, want %s", functionName(tt.f), got.kanji, tt.w.kanji)
 		}
-		if got := tt.f(); got.kana != tt.w.kana {
+		if got.kana != tt.w.kana {
 			t.Errorf("%s kana = %s, want %s", functionName(tt.f), got.kana, tt.w.kana)
 		}
 	}
