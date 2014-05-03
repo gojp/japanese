@@ -24,6 +24,7 @@ func (w *Word) AllButLast() (kanji, kana string) {
 
 /* === VERBS === */
 
+// A Verb is a Japanese verb.
 type Verb struct {
 	Type string
 	Word
@@ -72,6 +73,7 @@ func (v *Verb) TeForm() Word {
 	return v.Word
 }
 
+// Negative returns the negative form of a Verb.
 func (v *Verb) Negative() Word {
 	switch v.kanji {
 	case "する":
@@ -103,6 +105,13 @@ func (v *Verb) Negative() Word {
 		}
 	}
 	return v.Word
+}
+
+// NegativePolite returns the negative polite form of a Verb.
+func (v *Verb) NegativePolite() Word {
+	w := v.Stem()
+
+	return Word{w.kanji + "ません", w.kana + "ません"}
 }
 
 // Past returns the past tense of a Verb.
@@ -141,88 +150,95 @@ func (v *Verb) Past() Word {
 	return v.Word
 }
 
-// PastPolite returns the past polite tense of a Verb.
-func (v *Verb) PastPolite() Word {
+// Stem returns the stem of a verb.
+func (v *Verb) Stem() Word {
 	switch v.kanji {
 	case "する":
-		return Word{"しました", "しました"}
+		return Word{"し", "し"}
 	case "くる":
-		return Word{"きました", "きました"}
+		return Word{"き", "き"}
 	case "来る":
-		return Word{"来ました", "きました"}
+		return Word{"来", "き"}
 	}
 
+	r, k := v.AllButLast()
 	switch v.Type {
 	case "る":
-		return v.addEnd("ました")
+		return Word{r, k}
 	case "う":
-
 		lastKana := v.LastKana()
 
 		switch lastKana {
 		case "す":
-			return v.addEnd("しました")
+			return v.addEnd("し")
 		case "く":
-			return v.addEnd("きました")
+			return v.addEnd("き")
 		case "ぐ":
-			return v.addEnd("ぎました")
+			return v.addEnd("ぎ")
 		case "む":
-			return v.addEnd("みました")
+			return v.addEnd("み")
 		case "ぶ":
-			return v.addEnd("びました")
+			return v.addEnd("び")
 		case "ぬ":
-			return v.addEnd("にました")
+			return v.addEnd("に")
 		case "る":
-			return v.addEnd("りました")
+			return v.addEnd("り")
 		case "う":
-			return v.addEnd("いました")
+			return v.addEnd("い")
 		case "つ":
-			return v.addEnd("ちました")
+			return v.addEnd("ち")
 		}
 	}
 	return v.Word
 }
 
-func (v *Verb) progressive(end string) Word {
+// PastPolite returns the past polite tense of a Verb.
+func (v *Verb) PastPolite() Word {
+	w := v.Stem()
+
+	return Word{w.kanji + "ました", w.kana + "ました"}
+}
+
+func (v *Verb) te(end string) Word {
 	w := v.TeForm()
 
 	return Word{w.kanji + end, w.kana + end}
 }
 
-// Progressive returns the progressive postive
+// Progressive returns the te postive
 // form of a Verb.
 func (v *Verb) Progressive() Word {
-	return v.progressive("いる")
+	return v.te("いる")
 }
 
-// ProgressiveNegative returns the progressive negative
+// ProgressiveNegative returns the te negative
 // form of a Verb.
 func (v *Verb) ProgressiveNegative() Word {
-	return v.progressive("いない")
+	return v.te("いない")
 }
 
-// ProgressivePolite returns the progressive positive
+// ProgressivePolite returns the te positive
 // polite form of a Verb.
 func (v *Verb) ProgressivePolite() Word {
-	return v.progressive("います")
+	return v.te("います")
 }
 
-// ProgressiveNegativePolite returns the progressive negative
+// ProgressiveNegativePolite returns the te negative
 // polite form of a Verb.
 func (v *Verb) ProgressiveNegativePolite() Word {
-	return v.progressive("いません")
+	return v.te("いません")
 }
 
 // ProgressiveShort returns the shortened
-// progressive positive form of a Verb.
+// te positive form of a Verb.
 func (v *Verb) ProgressiveShort() Word {
-	return v.progressive("る")
+	return v.te("る")
 }
 
 // ProgressiveShortNegative returns the shortened
-// progressive negative form of a Verb.
+// te negative form of a Verb.
 func (v *Verb) ProgressiveShortNegative() Word {
-	return v.progressive("ない")
+	return v.te("ない")
 }
 
 /* === ADJECTIVES === */

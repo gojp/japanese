@@ -155,18 +155,31 @@ func TestProgressive(t *testing.T) {
 
 var negativeTests = []verbTest{
 	{taberu.Negative, Word{"食べない", "たべない"}},
+	{taberu.NegativePolite, Word{"食べません", "たべません"}},
 	{miru.Negative, Word{"見ない", "みない"}},
+	{miru.NegativePolite, Word{"見ません", "みません"}},
 	{hanasu.Negative, Word{"話さない", "はなさない"}},
+	{hanasu.NegativePolite, Word{"話しません", "はなしません"}},
 	{kaku.Negative, Word{"書かない", "かかない"}},
+	{kaku.NegativePolite, Word{"書きません", "かきません"}},
 	{oyogu.Negative, Word{"泳がない", "およがない"}},
+	{oyogu.NegativePolite, Word{"泳ぎません", "およぎません"}},
 	{nomu.Negative, Word{"飲まない", "のまない"}},
+	{nomu.NegativePolite, Word{"飲みません", "のみません"}},
 	{asobu.Negative, Word{"遊ばない", "あそばない"}},
+	{asobu.NegativePolite, Word{"遊びません", "あそびません"}},
 	{shinu.Negative, Word{"死なない", "しなない"}},
+	{shinu.NegativePolite, Word{"死にません", "しにません"}},
 	{kiru.Negative, Word{"切らない", "きらない"}},
+	{kiru.NegativePolite, Word{"切りません", "きりません"}},
 	{kau.Negative, Word{"買わない", "かわない"}},
+	{kau.NegativePolite, Word{"買いません", "かいません"}},
 	{motsu.Negative, Word{"持たない", "もたない"}},
+	{motsu.NegativePolite, Word{"持ちません", "もちません"}},
 	{iku.Negative, Word{"行かない", "いかない"}},
+	{iku.NegativePolite, Word{"行きません", "いきません"}},
 	{suru.Negative, Word{"しない", "しない"}},
+	{suru.NegativePolite, Word{"しません", "しません"}},
 }
 
 func TestNegative(t *testing.T) {
