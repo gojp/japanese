@@ -7,10 +7,6 @@ type Word struct {
 	kana  string
 }
 
-func (w *Word) Word() Word {
-	return *w
-}
-
 // GetLastKana returns the last kana in a word.
 func (w *Word) GetLastKana() string {
 	kanaRune := []rune(w.kana)
@@ -22,6 +18,7 @@ func (w *Word) GetLastKana() string {
 func (w *Word) GetAllButLast() (kanji, kana string) {
 	kanjiRune := []rune(w.kanji)
 	kanaRune := []rune(w.kana)
+
 	return string(kanjiRune[:len(kanjiRune)-1]), string(kanaRune[:len(kanaRune)-1])
 }
 
@@ -69,10 +66,10 @@ func (v *Verb) TeForm() Word {
 		case "る", "う", "つ":
 			return v.addEnd("って")
 		default:
-			return v.Word()
+			return v.Word
 		}
 	}
-	return v.Word()
+	return v.Word
 }
 
 func (v *Verb) Negative() Word {
@@ -104,9 +101,9 @@ func (v *Verb) Negative() Word {
 			extra := m[lastKana] + "ない"
 			return v.addEnd(extra)
 		}
-		return v.Word()
+		return v.Word
 	}
-	return v.Word()
+	return v.Word
 }
 
 // Past returns the past tense of a Verb.
@@ -142,10 +139,10 @@ func (v *Verb) Past() Word {
 			return v.addEnd("った")
 		}
 
-		return v.Word()
+		return v.Word
 	}
 
-	return v.Word()
+	return v.Word
 }
 
 // PastPolite returns the past polite tense of a Verb.
@@ -187,9 +184,9 @@ func (v *Verb) PastPolite() Word {
 			return v.addEnd("ちました")
 		}
 
-		return v.Word()
+		return v.Word
 	}
-	return v.Word()
+	return v.Word
 }
 
 func (v *Verb) progressive(end string) Word {
