@@ -30,6 +30,19 @@ type Verb struct {
 	Word
 }
 
+func (v *Verb) stem(u map[string]string) Word {
+	r, k := v.AllButLast()
+	switch v.Type {
+	case "る":
+		return Word{r, k}
+	case "う":
+		lastKana := v.LastKana()
+
+		return v.addEnd(u[lastKana])
+	}
+	return v.Word
+}
+
 // Stem returns the stem of a verb.
 func (v *Verb) Stem() Word {
 	switch v.kanji {
@@ -39,35 +52,19 @@ func (v *Verb) Stem() Word {
 		return Word{"来", "き"}
 	}
 
-	r, k := v.AllButLast()
-	switch v.Type {
-	case "る":
-		return Word{r, k}
-	case "う":
-		lastKana := v.LastKana()
-
-		switch lastKana {
-		case "す":
-			return v.addEnd("し")
-		case "く":
-			return v.addEnd("き")
-		case "ぐ":
-			return v.addEnd("ぎ")
-		case "む":
-			return v.addEnd("み")
-		case "ぶ":
-			return v.addEnd("び")
-		case "ぬ":
-			return v.addEnd("に")
-		case "る":
-			return v.addEnd("り")
-		case "う":
-			return v.addEnd("い")
-		case "つ":
-			return v.addEnd("ち")
-		}
+	m := map[string]string{
+		"す": "し",
+		"く": "き",
+		"ぐ": "ぎ",
+		"む": "み",
+		"ぶ": "び",
+		"ぬ": "に",
+		"る": "り",
+		"う": "い",
+		"つ": "ち",
 	}
-	return v.Word
+
+	return v.stem(m)
 }
 
 // ShortStem returns the short stem of a verb.
@@ -79,35 +76,19 @@ func (v *Verb) ShortStem() Word {
 		return Word{"来", "こ"}
 	}
 
-	r, k := v.AllButLast()
-	switch v.Type {
-	case "る":
-		return Word{r, k}
-	case "う":
-		lastKana := v.LastKana()
-
-		switch lastKana {
-		case "す":
-			return v.addEnd("さ")
-		case "く":
-			return v.addEnd("か")
-		case "ぐ":
-			return v.addEnd("が")
-		case "む":
-			return v.addEnd("ま")
-		case "ぶ":
-			return v.addEnd("ば")
-		case "ぬ":
-			return v.addEnd("な")
-		case "る":
-			return v.addEnd("ら")
-		case "う":
-			return v.addEnd("わ")
-		case "つ":
-			return v.addEnd("た")
-		}
+	m := map[string]string{
+		"す": "さ",
+		"く": "か",
+		"ぐ": "が",
+		"む": "ま",
+		"ぶ": "ば",
+		"ぬ": "な",
+		"る": "ら",
+		"う": "わ",
+		"つ": "た",
 	}
-	return v.Word
+
+	return v.stem(m)
 }
 
 func (v *Verb) addEnd(end string) Word {
