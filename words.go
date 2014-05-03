@@ -51,7 +51,8 @@ func (v *Verb) stem(u map[string]string) (w Word, err error) {
 			return v.addEnd(val), nil
 		}
 	}
-	return w, nil
+
+	return w, fmt.Errorf("Attempt to get stem of verb with invalid ending.")
 }
 
 // Stem returns the stem of a verb.
