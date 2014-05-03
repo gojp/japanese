@@ -124,7 +124,6 @@ func (v *Verb) Past() Word {
 
 		lastKana := v.GetLastKana()
 
-		// 行く is only an exception for this rule
 		if v.kanji == "行く" {
 			return Word{"行った", "いった"}
 		}
@@ -132,15 +131,63 @@ func (v *Verb) Past() Word {
 		switch lastKana {
 		case "す":
 			return v.addEnd("した")
-		case "く", "ぐ":
+		case "く":
 			return v.addEnd("いた")
+		case "ぐ":
+			return v.addEnd("いだ")
 		case "む", "ぶ", "ぬ":
 			return v.addEnd("んだ")
 		case "る", "う", "つ":
 			return v.addEnd("った")
 		}
 
-		// otherwise we just return the same word, because we don't know what to do:
+		return v.GetWord()
+	}
+
+	return v.GetWord()
+}
+
+// PastPolite returns the past polite tense of a Verb.
+func (v *Verb) PastPolite() Word {
+	switch v.kanji {
+	case "する":
+		return Word{"しました", "しました"}
+	case "くる":
+		return Word{"きました", "きました"}
+	}
+
+	switch v.Type {
+	case "る":
+		return v.addEnd("ました")
+	case "う":
+
+		lastKana := v.GetLastKana()
+
+		if v.kanji == "行く" {
+			return Word{"行きました", "いきました"}
+		}
+
+		switch lastKana {
+		case "す":
+			return v.addEnd("しました")
+		case "く":
+			return v.addEnd("きました")
+		case "ぐ":
+			return v.addEnd("ぎました")
+		case "む":
+			return v.addEnd("みました")
+		case "ぶ":
+			return v.addEnd("びました")
+		case "ぬ":
+			return v.addEnd("にました")
+		case "る":
+			return v.addEnd("りました")
+		case "う":
+			return v.addEnd("いました")
+		case "つ":
+			return v.addEnd("ちました")
+		}
+
 		return v.GetWord()
 	}
 	return v.GetWord()

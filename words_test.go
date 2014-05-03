@@ -392,3 +392,34 @@ var negativeTests = []verbTest{
 func TestNegative(t *testing.T) {
 	testVerb(t, negativeTests)
 }
+
+var pastTests = []verbTest{
+	{taberu.Past, Word{"食べた", "たべた"}},
+	{taberu.PastPolite, Word{"食べました", "たべました"}},
+	{miru.Past, Word{"見た", "みた"}},
+	{miru.PastPolite, Word{"見ました", "みました"}},
+	{hanasu.Past, Word{"話した", "はなした"}},
+	{hanasu.PastPolite, Word{"話しました", "はなしました"}},
+	{kaku.Past, Word{"書いた", "かいた"}},
+	{kaku.PastPolite, Word{"書きました", "かきました"}},
+	{oyogu.Past, Word{"泳いだ", "およいだ"}},
+	{oyogu.PastPolite, Word{"泳ぎました", "およぎました"}},
+	{nomu.Past, Word{"飲んだ", "のんだ"}},
+	{nomu.PastPolite, Word{"飲みました", "のみました"}},
+	{asobu.Past, Word{"遊んだ", "あそんだ"}},
+	{asobu.PastPolite, Word{"遊びました", "あそびました"}},
+	{shinu.Past, Word{"死んだ", "しんだ"}},
+	{shinu.PastPolite, Word{"死にました", "しにました"}},
+	{kiru.Past, Word{"切った", "きった"}},
+	{kiru.PastPolite, Word{"切りました", "きりました"}},
+	{kau.Past, Word{"買った", "かった"}},
+	{kau.PastPolite, Word{"買いました", "かいました"}},
+	{motsu.Past, Word{"持った", "もった"}},
+	{motsu.PastPolite, Word{"持ちました", "もちました"}},
+	{iku.Past, Word{"行った", "いった"}},
+	{iku.PastPolite, Word{"行きました", "いきました"}},
+}
+
+func TestPast(t *testing.T) {
+	testVerb(t, pastTests)
+}
