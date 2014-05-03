@@ -110,6 +110,13 @@ func (v *Verb) NegativePolite() Word {
 	return Word{w.kanji + "ません", w.kana + "ません"}
 }
 
+// NegativePastPolite returns the negative past polite form of a Verb.
+func (v *Verb) NegativePastPolite() Word {
+	w := v.Stem()
+
+	return Word{w.kanji + "ませんでした", w.kana + "ませんでした"}
+}
+
 // Past returns the past tense of a Verb.
 func (v *Verb) Past() Word {
 	switch v.kanji {
