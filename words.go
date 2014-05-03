@@ -15,14 +15,15 @@ func (w *Word) GetRoot() string {
 	return w.kana
 }
 
+// GetLastKana returns the last kana in a word.
 func (w *Word) GetLastKana() string {
-	// get the last kana character in a word
 	kanaRune := []rune(w.kana)
+
 	return string(kanaRune[len(kanaRune)-1:])
 }
 
+// GetAllButLast returns all but he last character of a word
 func (w *Word) GetAllButLast() (kanji, kana string) {
-	// get all but the last character of a word
 	kanjiRune := []rune(w.kanji)
 	kanaRune := []rune(w.kana)
 	return string(kanjiRune[:len(kanjiRune)-1]), string(kanaRune[:len(kanaRune)-1])
@@ -41,16 +42,24 @@ func (v *Verb) addEnd(end string) Word {
 	return Word{r + end, k + end}
 }
 
+// TeForm returns the te-form of a verb.
 func (v *Verb) TeForm() Word {
+	switch v.kanji {
+	case "する":
+		return Word{"して", "して"}
+	case "くる":
+		return Word{"きて", "きて"}
+	case "来る":
+		return Word{"来て", "きて"}
+	case "行く":
+		return v.addEnd("って")
+	}
+
 	switch v.Type {
 	case "る":
 		return v.addEnd("て")
 	case "う":
 		l := v.GetLastKana()
-
-		if v.kanji == "行く" {
-			return v.addEnd("って")
-		}
 
 		switch l {
 		case "す":
@@ -76,6 +85,10 @@ func (v *Verb) Negative() Word {
 		return Word{"しない", "しない"}
 	case "くる":
 		return Word{"こない", "こない"}
+	case "来る":
+		return Word{"来ない", "こない"}
+	case "ある":
+		return Word{"ない", "ない"}
 	}
 
 	switch v.Type {
@@ -84,15 +97,8 @@ func (v *Verb) Negative() Word {
 	case "う":
 		lastKana := v.GetLastKana()
 
-		// one exception for case "ある":
-		if v.kanji == "ある" {
-			return Word{"ない", "ない"}
-		}
-
-		// if verb ends in う, replace う with わない
 		if lastKana == "う" {
 			return v.addEnd("わない")
-			// otherwise replace with the -a equivalent
 		} else {
 			m := map[string]string{
 				"つ": "た", "く": "か", "ゅ": "ゃ", "す": "さ",
@@ -102,7 +108,6 @@ func (v *Verb) Negative() Word {
 			extra := m[lastKana] + "ない"
 			return v.addEnd(extra)
 		}
-		// return original word if all else fails
 		return v.GetWord()
 	}
 	return v.GetWord()
@@ -115,6 +120,10 @@ func (v *Verb) Past() Word {
 		return Word{"した", "した"}
 	case "くる":
 		return Word{"きた", "きた"}
+	case "来る":
+		return v.addEnd("た")
+	case "行く":
+		return v.addEnd("った")
 	}
 
 	switch v.Type {
@@ -123,10 +132,6 @@ func (v *Verb) Past() Word {
 	case "う":
 
 		lastKana := v.GetLastKana()
-
-		if v.kanji == "行く" {
-			return Word{"行った", "いった"}
-		}
 
 		switch lastKana {
 		case "す":
@@ -154,6 +159,8 @@ func (v *Verb) PastPolite() Word {
 		return Word{"しました", "しました"}
 	case "くる":
 		return Word{"きました", "きました"}
+	case "来る":
+		return Word{"来ました", "きました"}
 	}
 
 	switch v.Type {
@@ -162,10 +169,6 @@ func (v *Verb) PastPolite() Word {
 	case "う":
 
 		lastKana := v.GetLastKana()
-
-		if v.kanji == "行く" {
-			return Word{"行きました", "いきました"}
-		}
 
 		switch lastKana {
 		case "す":
