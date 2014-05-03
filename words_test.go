@@ -180,6 +180,8 @@ var negativeTests = []verbTest{
 	{iku.NegativePolite, Word{"行きません", "いきません"}},
 	{suru.Negative, Word{"しない", "しない"}},
 	{suru.NegativePolite, Word{"しません", "しません"}},
+	{kuru.Negative, Word{"来ない", "こない"}},
+	{kuru.NegativePolite, Word{"来ません", "きません"}},
 }
 
 func TestNegative(t *testing.T) {
@@ -213,6 +215,8 @@ var pastTests = []verbTest{
 	{iku.PastPolite, Word{"行きました", "いきました"}},
 	{suru.Past, Word{"した", "した"}},
 	{suru.PastPolite, Word{"しました", "しました"}},
+	{kuru.Past, Word{"来た", "きた"}},
+	{kuru.PastPolite, Word{"来ました", "きました"}},
 }
 
 func TestPast(t *testing.T) {

@@ -41,8 +41,6 @@ func (v *Verb) TeForm() Word {
 	switch v.kanji {
 	case "する":
 		return Word{"して", "して"}
-	case "くる":
-		return Word{"きて", "きて"}
 	case "来る":
 		return Word{"来て", "きて"}
 	case "行く":
@@ -78,8 +76,6 @@ func (v *Verb) Negative() Word {
 	switch v.kanji {
 	case "する":
 		return Word{"しない", "しない"}
-	case "くる":
-		return Word{"こない", "こない"}
 	case "来る":
 		return Word{"来ない", "こない"}
 	case "ある":
@@ -119,10 +115,8 @@ func (v *Verb) Past() Word {
 	switch v.kanji {
 	case "する":
 		return Word{"した", "した"}
-	case "くる":
-		return Word{"きた", "きた"}
 	case "来る":
-		return v.addEnd("た")
+		return Word{"来た", "きた"}
 	case "行く":
 		return v.addEnd("った")
 	}
@@ -155,8 +149,6 @@ func (v *Verb) Stem() Word {
 	switch v.kanji {
 	case "する":
 		return Word{"し", "し"}
-	case "くる":
-		return Word{"き", "き"}
 	case "来る":
 		return Word{"来", "き"}
 	}
