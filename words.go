@@ -7,15 +7,15 @@ type Word struct {
 	kana  string
 }
 
-// GetLastKana returns the last kana in a word.
-func (w *Word) GetLastKana() string {
+// LastKana returns the last kana in a word.
+func (w *Word) LastKana() string {
 	kanaRune := []rune(w.kana)
 
 	return string(kanaRune[len(kanaRune)-1:])
 }
 
-// GetAllButLast returns all but he last character of a word
-func (w *Word) GetAllButLast() (kanji, kana string) {
+// AllButLast returns all but he last character of a word
+func (w *Word) AllButLast() (kanji, kana string) {
 	kanjiRune := []rune(w.kanji)
 	kanaRune := []rune(w.kana)
 
@@ -30,7 +30,7 @@ type Verb struct {
 }
 
 func (v *Verb) addEnd(end string) Word {
-	r, k := v.GetAllButLast()
+	r, k := v.AllButLast()
 
 	return Word{r + end, k + end}
 }
@@ -52,7 +52,7 @@ func (v *Verb) TeForm() Word {
 	case "る":
 		return v.addEnd("て")
 	case "う":
-		l := v.GetLastKana()
+		l := v.LastKana()
 
 		switch l {
 		case "す":
@@ -88,7 +88,7 @@ func (v *Verb) Negative() Word {
 	case "る":
 		return v.addEnd("ない")
 	case "う":
-		lastKana := v.GetLastKana()
+		lastKana := v.LastKana()
 
 		if lastKana == "う" {
 			return v.addEnd("わない")
@@ -101,7 +101,6 @@ func (v *Verb) Negative() Word {
 			extra := m[lastKana] + "ない"
 			return v.addEnd(extra)
 		}
-		return v.Word
 	}
 	return v.Word
 }
@@ -124,7 +123,7 @@ func (v *Verb) Past() Word {
 		return v.addEnd("た")
 	case "う":
 
-		lastKana := v.GetLastKana()
+		lastKana := v.LastKana()
 
 		switch lastKana {
 		case "す":
@@ -138,10 +137,7 @@ func (v *Verb) Past() Word {
 		case "る", "う", "つ":
 			return v.addEnd("った")
 		}
-
-		return v.Word
 	}
-
 	return v.Word
 }
 
@@ -161,7 +157,7 @@ func (v *Verb) PastPolite() Word {
 		return v.addEnd("ました")
 	case "う":
 
-		lastKana := v.GetLastKana()
+		lastKana := v.LastKana()
 
 		switch lastKana {
 		case "す":
@@ -183,8 +179,6 @@ func (v *Verb) PastPolite() Word {
 		case "つ":
 			return v.addEnd("ちました")
 		}
-
-		return v.Word
 	}
 	return v.Word
 }
