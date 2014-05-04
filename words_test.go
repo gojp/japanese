@@ -41,7 +41,7 @@ func testVerb(t *testing.T, p []verbTest) {
 	for _, tt := range p {
 		got, err := tt.f()
 		if err != nil {
-			t.Fatalf("%s error: %v", functionName(tt.f), err)
+			t.Fatalf("%s(%v) error: %v", functionName(tt.f), tt.w, err)
 		}
 		if got.kanji != tt.w.kanji {
 			t.Errorf("%s kanji = %s, want %s", functionName(tt.f), got.kanji, tt.w.kanji)
@@ -253,4 +253,39 @@ var pastTests = []verbTest{
 
 func TestPast(t *testing.T) {
 	testVerb(t, pastTests)
+}
+
+var potentialTests = []verbTest{
+	{taberu.Potential, Word{"食べられる", "たべられる"}},
+	{taberu.PotentialPolite, Word{"食べられます", "たべられます"}},
+	{miru.Potential, Word{"見られる", "みられる"}},
+	{miru.PotentialPolite, Word{"見られます", "みられます"}},
+	{hanasu.Potential, Word{"話せる", "はなせる"}},
+	{hanasu.PotentialPolite, Word{"話せます", "はなせます"}},
+	{kaku.Potential, Word{"書ける", "かける"}},
+	{kaku.PotentialPolite, Word{"書けます", "かけます"}},
+	{oyogu.Potential, Word{"泳げる", "およげる"}},
+	{oyogu.PotentialPolite, Word{"泳げます", "およげます"}},
+	{nomu.Potential, Word{"飲める", "のめる"}},
+	{nomu.PotentialPolite, Word{"飲めます", "のめます"}},
+	{asobu.Potential, Word{"遊べる", "あそべる"}},
+	{asobu.PotentialPolite, Word{"遊べます", "あそべます"}},
+	{shinu.Potential, Word{"死ねる", "しねる"}},
+	{shinu.PotentialPolite, Word{"死ねます", "しねます"}},
+	{kiru.Potential, Word{"切れる", "きれる"}},
+	{kiru.PotentialPolite, Word{"切れます", "きれます"}},
+	{kau.Potential, Word{"買える", "かえる"}},
+	{kau.PotentialPolite, Word{"買えます", "かえます"}},
+	{motsu.Potential, Word{"持てる", "もてる"}},
+	{motsu.PotentialPolite, Word{"持てます", "もてます"}},
+	{iku.Potential, Word{"行ける", "いける"}},
+	{iku.PotentialPolite, Word{"行けます", "いけます"}},
+	{suru.Potential, Word{"できる", "できる"}},
+	{suru.PotentialPolite, Word{"できます", "できます"}},
+	{kuru.Potential, Word{"来られる", "こられる"}},
+	{kuru.PotentialPolite, Word{"来られます", "こられます"}},
+}
+
+func TestPotential(t *testing.T) {
+	testVerb(t, potentialTests)
 }
