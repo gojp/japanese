@@ -313,6 +313,80 @@ func (v *Verb) ProgressiveShortNegative() (word Word, err error) {
 	return w, nil
 }
 
+// PotentialStem returns the potential stem of a verb.
+func (v *Verb) PotentialStem() (word Word, err error) {
+	switch v.kanji {
+	case "する":
+		return Word{"でき", "でき"}, nil
+	case "来る":
+		return Word{"来られ", "こられ"}, nil
+	}
+	switch v.Type {
+	case "る":
+		return v.addEnd("られ"), nil
+	case "う":
+		lastKana := v.LastKana()
+
+		switch lastKana {
+		case "す":
+			return v.addEnd("せ"), nil
+		case "く":
+			return v.addEnd("け"), nil
+		case "ぐ":
+			return v.addEnd("げ"), nil
+		case "む":
+			return v.addEnd("め"), nil
+		case "ぶ":
+			return v.addEnd("べ"), nil
+		case "ぬ":
+			return v.addEnd("ね"), nil
+		case "る":
+			return v.addEnd("れ"), nil
+		case "う":
+			return v.addEnd("え"), nil
+		case "つ":
+			return v.addEnd("て"), nil
+		}
+	}
+	return word, fmt.Errorf("Attempt to get potential stem of verb with invalid ending.")
+}
+
+func (v *Verb) Potential() (word Word, err error) {
+	w, err := v.PotentialStem()
+	if err != nil {
+		return word, err
+	}
+
+	return Word{w.kanji + "る", w.kana + "る"}, nil
+}
+
+func (v *Verb) PotentialNegative() (word Word, err error) {
+	w, err := v.PotentialStem()
+	if err != nil {
+		return word, err
+	}
+
+	return Word{w.kanji + "ない", w.kana + "ない"}, nil
+}
+
+func (v *Verb) PotentialPolite() (word Word, err error) {
+	w, err := v.PotentialStem()
+	if err != nil {
+		return word, err
+	}
+
+	return Word{w.kanji + "ます", w.kana + "ます"}, nil
+}
+
+func (v *Verb) PotentialNegativePolite() (word Word, err error) {
+	w, err := v.PotentialStem()
+	if err != nil {
+		return word, err
+	}
+
+	return Word{w.kanji + "ません", w.kana + "ません"}, nil
+}
+
 /* === ADJECTIVES === */
 
 type Adjective struct {
