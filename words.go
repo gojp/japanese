@@ -315,6 +315,12 @@ func (v *Verb) ProgressiveShortNegative() (word Word, err error) {
 
 // PotentialStem returns the potential stem of a verb.
 func (v *Verb) PotentialStem() (word Word, err error) {
+	switch v.kanji {
+	case "する":
+		return Word{"でき", "でき"}, nil
+	case "来る":
+		return Word{"来られ", "こられ"}, nil
+	}
 	switch v.Type {
 	case "る":
 		return v.addEnd("られ"), nil
@@ -346,12 +352,6 @@ func (v *Verb) PotentialStem() (word Word, err error) {
 }
 
 func (v *Verb) Potential() (word Word, err error) {
-	switch v.kanji {
-	case "する":
-		return Word{"できる", "できる"}, nil
-	case "来る":
-		return Word{"来られる", "こられる"}, nil
-	}
 	w, err := v.PotentialStem()
 	if err != nil {
 		return word, err
@@ -360,19 +360,31 @@ func (v *Verb) Potential() (word Word, err error) {
 	return Word{w.kanji + "る", w.kana + "る"}, nil
 }
 
-func (v *Verb) PotentialPolite() (word Word, err error) {
-	switch v.kanji {
-	case "する":
-		return Word{"できます", "できます"}, nil
-	case "来る":
-		return Word{"来られます", "こられます"}, nil
+func (v *Verb) PotentialNegative() (word Word, err error) {
+	w, err := v.PotentialStem()
+	if err != nil {
+		return word, err
 	}
+
+	return Word{w.kanji + "ない", w.kana + "ない"}, nil
+}
+
+func (v *Verb) PotentialPolite() (word Word, err error) {
 	w, err := v.PotentialStem()
 	if err != nil {
 		return word, err
 	}
 
 	return Word{w.kanji + "ます", w.kana + "ます"}, nil
+}
+
+func (v *Verb) PotentialNegativePolite() (word Word, err error) {
+	w, err := v.PotentialStem()
+	if err != nil {
+		return word, err
+	}
+
+	return Word{w.kanji + "ません", w.kana + "ません"}, nil
 }
 
 /* === ADJECTIVES === */
