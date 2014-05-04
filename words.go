@@ -5,21 +5,21 @@ import "fmt"
 /* === WORDS === */
 
 type Word struct {
-	kanji string
-	kana  string
+	Kanji string
+	Kana  string
 }
 
 // LastKana returns the last kana in a word.
 func (w *Word) LastKana() string {
-	kanaRune := []rune(w.kana)
+	kanaRune := []rune(w.Kana)
 
 	return string(kanaRune[len(kanaRune)-1:])
 }
 
 // AllButLast returns all but he last character of a word
 func (w *Word) AllButLast() (kanji, kana string) {
-	kanjiRune := []rune(w.kanji)
-	kanaRune := []rune(w.kana)
+	kanjiRune := []rune(w.Kanji)
+	kanaRune := []rune(w.Kana)
 
 	return string(kanjiRune[:len(kanjiRune)-1]), string(kanaRune[:len(kanaRune)-1])
 }
@@ -33,7 +33,7 @@ type Verb struct {
 }
 
 func (v *Verb) stem(u map[string]string) (w Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "する":
 		return Word{"し", "し"}, nil
 	}
@@ -57,7 +57,7 @@ func (v *Verb) stem(u map[string]string) (w Word, err error) {
 
 // Stem returns the stem of a verb.
 func (v *Verb) Stem() (w Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "来る":
 		return Word{"来", "き"}, nil
 	}
@@ -84,7 +84,7 @@ func (v *Verb) Stem() (w Word, err error) {
 
 // ShortStem returns the short stem of a verb.
 func (v *Verb) ShortStem() (w Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "来る":
 		return Word{"来", "こ"}, nil
 	}
@@ -117,7 +117,7 @@ func (v *Verb) addEnd(end string) Word {
 
 // TeForm returns the te-form of a verb.
 func (v *Verb) TeForm() (word Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "する":
 		return Word{"して", "して"}, nil
 	case "来る":
@@ -152,7 +152,7 @@ func (v *Verb) TeForm() (word Word, err error) {
 
 // Negative returns the negative form of a Verb.
 func (v *Verb) Negative() (word Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "ある":
 		return Word{"ない", "ない"}, nil
 	}
@@ -162,12 +162,12 @@ func (v *Verb) Negative() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "ない", w.kana + "ない"}, nil
+	return Word{w.Kanji + "ない", w.Kana + "ない"}, nil
 }
 
 // NegativePast returns the negative past form of a Verb.
 func (v *Verb) NegativePast() (word Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "ある":
 		return Word{"なかった", "なかった"}, nil
 	}
@@ -177,7 +177,7 @@ func (v *Verb) NegativePast() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "なかった", w.kana + "なかった"}, nil
+	return Word{w.Kanji + "なかった", w.Kana + "なかった"}, nil
 }
 
 // NegativePolite returns the negative polite form of a Verb.
@@ -187,7 +187,7 @@ func (v *Verb) NegativePolite() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "ません", w.kana + "ません"}, nil
+	return Word{w.Kanji + "ません", w.Kana + "ません"}, nil
 }
 
 // NegativePastPolite returns the negative past polite form of a Verb.
@@ -197,12 +197,12 @@ func (v *Verb) NegativePastPolite() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "ませんでした", w.kana + "ませんでした"}, nil
+	return Word{w.Kanji + "ませんでした", w.Kana + "ませんでした"}, nil
 }
 
 // Past returns the past tense of a Verb.
 func (v *Verb) Past() (word Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "する":
 		return Word{"した", "した"}, nil
 	case "来る":
@@ -241,7 +241,7 @@ func (v *Verb) PastPolite() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "ました", w.kana + "ました"}, nil
+	return Word{w.Kanji + "ました", w.Kana + "ました"}, nil
 }
 
 func (v *Verb) te(end string) (word Word, err error) {
@@ -250,7 +250,7 @@ func (v *Verb) te(end string) (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + end, w.kana + end}, nil
+	return Word{w.Kanji + end, w.Kana + end}, nil
 }
 
 // Progressive returns the te postive
@@ -315,7 +315,7 @@ func (v *Verb) ProgressiveShortNegative() (word Word, err error) {
 
 // PotentialStem returns the potential stem of a verb.
 func (v *Verb) PotentialStem() (word Word, err error) {
-	switch v.kanji {
+	switch v.Kanji {
 	case "する":
 		return Word{"でき", "でき"}, nil
 	case "来る":
@@ -357,7 +357,7 @@ func (v *Verb) Potential() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "る", w.kana + "る"}, nil
+	return Word{w.Kanji + "る", w.Kana + "る"}, nil
 }
 
 func (v *Verb) PotentialNegative() (word Word, err error) {
@@ -366,7 +366,7 @@ func (v *Verb) PotentialNegative() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "ない", w.kana + "ない"}, nil
+	return Word{w.Kanji + "ない", w.Kana + "ない"}, nil
 }
 
 func (v *Verb) PotentialPolite() (word Word, err error) {
@@ -375,7 +375,7 @@ func (v *Verb) PotentialPolite() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "ます", w.kana + "ます"}, nil
+	return Word{w.Kanji + "ます", w.Kana + "ます"}, nil
 }
 
 func (v *Verb) PotentialNegativePolite() (word Word, err error) {
@@ -384,7 +384,7 @@ func (v *Verb) PotentialNegativePolite() (word Word, err error) {
 		return word, err
 	}
 
-	return Word{w.kanji + "ません", w.kana + "ません"}, nil
+	return Word{w.Kanji + "ません", w.Kana + "ません"}, nil
 }
 
 /* === ADJECTIVES === */
