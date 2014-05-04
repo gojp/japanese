@@ -43,11 +43,11 @@ func testVerb(t *testing.T, p []verbTest) {
 		if err != nil {
 			t.Fatalf("%s(%v) error: %v", functionName(tt.f), tt.w, err)
 		}
-		if got.kanji != tt.w.kanji {
-			t.Errorf("%s kanji = %s, want %s", functionName(tt.f), got.kanji, tt.w.kanji)
+		if got.Kanji != tt.w.Kanji {
+			t.Errorf("%s Kanji = %s, want %s", functionName(tt.f), got.Kanji, tt.w.Kanji)
 		}
-		if got.kana != tt.w.kana {
-			t.Errorf("%s kana = %s, want %s", functionName(tt.f), got.kana, tt.w.kana)
+		if got.Kana != tt.w.Kana {
+			t.Errorf("%s Kana = %s, want %s", functionName(tt.f), got.Kana, tt.w.Kana)
 		}
 	}
 

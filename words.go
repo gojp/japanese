@@ -2,8 +2,6 @@ package japanese
 
 import "fmt"
 
-/* === WORDS === */
-
 type Word struct {
 	Kanji string
 	Kana  string
@@ -11,20 +9,25 @@ type Word struct {
 
 // LastKana returns the last kana in a word.
 func (w *Word) LastKana() string {
-	kanaRune := []rune(w.Kana)
+	k := []rune(w.Kana)
 
-	return string(kanaRune[len(kanaRune)-1:])
+	return string(k[len(k)-1:])
 }
 
-// AllButLast returns all but he last character of a word
+func (v *Verb) addEnd(end string) Word {
+	r, k := v.AllButLast()
+
+	return Word{r + end, k + end}
+}
+
+// AllButLast returns the kanji and kana readings of
+// a word without the last character.
 func (w *Word) AllButLast() (kanji, kana string) {
-	kanjiRune := []rune(w.Kanji)
-	kanaRune := []rune(w.Kana)
+	kr := []rune(w.Kanji)
+	kar := []rune(w.Kana)
 
-	return string(kanjiRune[:len(kanjiRune)-1]), string(kanaRune[:len(kanaRune)-1])
+	return string(kr[:len(kr)-1]), string(kar[:len(kar)-1])
 }
-
-/* === VERBS === */
 
 // A Verb is a Japanese verb.
 type Verb struct {
@@ -56,6 +59,7 @@ func (v *Verb) stem(u map[string]string) (w Word, err error) {
 }
 
 // Stem returns the stem of a verb.
+// (食べる: 食べ; 言う:   言い)
 func (v *Verb) Stem() (w Word, err error) {
 	switch v.Kanji {
 	case "来る":
@@ -83,6 +87,7 @@ func (v *Verb) Stem() (w Word, err error) {
 }
 
 // ShortStem returns the short stem of a verb.
+// (食べる: 食べ; 言う:   言わ)
 func (v *Verb) ShortStem() (w Word, err error) {
 	switch v.Kanji {
 	case "来る":
@@ -107,12 +112,6 @@ func (v *Verb) ShortStem() (w Word, err error) {
 	}
 
 	return word, nil
-}
-
-func (v *Verb) addEnd(end string) Word {
-	r, k := v.AllButLast()
-
-	return Word{r + end, k + end}
 }
 
 // TeForm returns the te-form of a verb.
@@ -386,8 +385,6 @@ func (v *Verb) PotentialNegativePolite() (word Word, err error) {
 
 	return Word{w.Kanji + "ません", w.Kana + "ません"}, nil
 }
-
-/* === ADJECTIVES === */
 
 type Adjective struct {
 	Word
