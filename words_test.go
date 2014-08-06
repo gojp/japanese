@@ -29,6 +29,7 @@ var (
 	iku    = Verb{"う", Word{"行く", "いく"}}
 
 	// Exception verbs
+	aru  = Verb{"ex", Word{"ある", "ある"}}
 	suru = Verb{"ex", Word{"する", "する"}}
 	kuru = Verb{"ex", Word{"来る", "くる"}}
 )
@@ -206,6 +207,10 @@ var negativeTests = []verbTest{
 	{iku.NegativePast, Word{"行かなかった", "いかなかった"}},
 	{iku.NegativePolite, Word{"行きません", "いきません"}},
 	{iku.NegativePastPolite, Word{"行きませんでした", "いきませんでした"}},
+	{aru.Negative, Word{"ない", "ない"}},
+	{aru.NegativePast, Word{"なかった", "なかった"}},
+	{aru.NegativePolite, Word{"ありません", "ありません"}},
+	{aru.NegativePastPolite, Word{"ありませんでした", "ありませんでした"}},
 	{suru.Negative, Word{"しない", "しない"}},
 	{suru.NegativePast, Word{"しなかった", "しなかった"}},
 	{suru.NegativePolite, Word{"しません", "しません"}},
@@ -245,6 +250,8 @@ var pastTests = []verbTest{
 	{motsu.PastPolite, Word{"持ちました", "もちました"}},
 	{iku.Past, Word{"行った", "いった"}},
 	{iku.PastPolite, Word{"行きました", "いきました"}},
+	{aru.Past, Word{"あった", "あった"}},
+	{aru.PastPolite, Word{"ありました", "ありました"}},
 	{suru.Past, Word{"した", "した"}},
 	{suru.PastPolite, Word{"しました", "しました"}},
 	{kuru.Past, Word{"来た", "きた"}},

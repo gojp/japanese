@@ -64,6 +64,8 @@ func (v *Verb) Stem() (w Word, err error) {
 	switch v.Kanji {
 	case "来る":
 		return Word{"来", "き"}, nil
+	case "ある":
+		return Word{"あり", "あり"}, nil
 	}
 
 	m := map[string]string{
@@ -202,6 +204,8 @@ func (v *Verb) NegativePastPolite() (word Word, err error) {
 // Past returns the past tense of a Verb.
 func (v *Verb) Past() (word Word, err error) {
 	switch v.Kanji {
+	case "ある":
+		return Word{"あった", "あった"}, nil
 	case "する":
 		return Word{"した", "した"}, nil
 	case "来る":
