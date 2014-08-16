@@ -48,6 +48,7 @@ func TestDictionaryFormBasicGodans(t *testing.T) {
 		in   string
 		want string
 	}{
+		{"", ""},
 		{"いく", "いく"},
 		{"ききます", "きく"},
 		{"ぬぎます", "ぬぐ"},
