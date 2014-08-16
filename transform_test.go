@@ -38,7 +38,7 @@ func TestDictionaryFormBasicIchidans(t *testing.T) {
 	for _, tt := range tests {
 		_, got := DictionaryForm(tt.in)
 		if got != tt.want {
-			t.Errorf("DictionaryForm(%q) ichidan = %q, want %q")
+			t.Errorf("DictionaryForm(%q) ichidan = %q, want %q", tt.in, got, tt.want)
 		}
 	}
 }
@@ -57,7 +57,7 @@ func TestDictionaryFormBasicGodans(t *testing.T) {
 	for _, tt := range tests {
 		got, _ := DictionaryForm(tt.in)
 		if got != tt.want {
-			t.Errorf("DictionaryForm(%q) godan = %q, want %q")
+			t.Errorf("DictionaryForm(%q) godan = %q, want %q", tt.in, got, tt.want)
 		}
 	}
 }

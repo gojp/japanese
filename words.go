@@ -48,11 +48,11 @@ func (v *Verb) stem(u map[string]string) (w Word, err error) {
 	case "う":
 		lastKana := v.LastKana()
 
-		if val, ok := u[lastKana]; !ok {
+		val, ok := u[lastKana]
+		if !ok {
 			return w, fmt.Errorf("Attempt to get stem of U verb with invalid ending %s. Valid endings: %v", lastKana, u)
-		} else {
-			return v.addEnd(val), nil
 		}
+		return v.addEnd(val), nil
 	}
 
 	return w, fmt.Errorf("Attempt to get stem of verb with invalid ending.")
