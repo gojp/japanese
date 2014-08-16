@@ -15,6 +15,7 @@ func TestIdentifyForm(t *testing.T) {
 		{"なかった", PastIndicative},
 		{"ありました", PastIndicative},
 		{"ありませんでした", PastIndicative},
+		{"foo", Unknown},
 	}
 
 	for _, tt := range tests {
