@@ -30,6 +30,7 @@ func TestDictionaryFormBasicIchidans(t *testing.T) {
 		in   string
 		want string
 	}{
+		{"", "る"},
 		{"たべます", "たべる"},
 		{"おしえます", "おしえる"},
 		{"います", "いる"},
