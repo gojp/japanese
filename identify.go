@@ -108,7 +108,7 @@ var (
 	PastPresumptiveEnding    = FormEnding{PastPresumptive, []string{Tarou, Tadarou, Nakattadarou, Tadeshou, Nakattadeshou}}
 	PresentProgressiveEnding = FormEnding{PresentProgressive, []string{Teiru, Teimasu, Teru, Temasu}}
 	PastProgressiveEnding    = FormEnding{PastProgressive, []string{Teita, Teimashita, Teta, Temashita}}
-	ProvisionalEnding        = FormEnding{}
+	ProvisionalEnding        = FormEnding{Provisional, []string{Reba, Eba, Keba, Geba, Seba, Teba, Neba, Beba, Meba, Kereba, Deareba, Nakereba}}
 	ConditionalEnding        = FormEnding{}
 	PotentialEnding          = FormEnding{}
 	CausativeEnding          = FormEnding{}
