@@ -15,6 +15,10 @@ func TestIdentifyForm(t *testing.T) {
 		{"なかった", PastIndicative},
 		{"ありました", PastIndicative},
 		{"ありませんでした", PastIndicative},
+		{"行っている", PresentProgressive},
+		{"行っています", PresentProgressive},
+		{"知ってる", PresentProgressive},
+		{"知ってます", PresentProgressive},
 		{"foo", Unknown},
 	}
 

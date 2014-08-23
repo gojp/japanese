@@ -41,7 +41,11 @@ const (
 
 // verb endings
 const (
-	Te = "て"
+	Te      = "て"
+	Teiru   = "ている"
+	Teimasu = "ています"
+	Teru    = "てる"
+	Temasu  = "てます"
 
 	Ru    = "る"
 	U     = "う"
@@ -85,7 +89,7 @@ var (
 	ImperativeEnding         = FormEnding{Imperative, []string{Ro, Kudasai, Naidekudasai, Na}}
 	PastIndicativeEnding     = FormEnding{PastIndicative, []string{Ta, Mashita, Katta, Nakatta, MasenDeshita}}
 	PastPresumptiveEnding    = FormEnding{PastPresumptive, []string{Tarou, Tadarou, Nakattadarou, Tadeshou, Nakattadeshou}}
-	PresentProgressiveEnding = FormEnding{}
+	PresentProgressiveEnding = FormEnding{PresentProgressive, []string{Teiru, Teimasu, Teru, Temasu}}
 	PastProgressiveEnding    = FormEnding{}
 	ProvisionalEnding        = FormEnding{}
 	ConditionalEnding        = FormEnding{}
@@ -138,12 +142,16 @@ func IdentifyEnding(verb string) (ending string) {
 // IdentifyForm tries to identify the verb form.
 // It returns the integer form constant
 func IdentifyForm(verb string) (form int) {
-	if hasAnySuffix(verb, Ru, U, Masu, Nai, Masen) {
+	switch {
+	case hasAnySuffix(verb, Teiru, Teimasu, Teru, Temasu):
+		return PresentProgressive
+	case hasAnySuffix(verb, Ru, U, Masu, Nai, Masen):
 		return PresentIndicative
-	} else if hasAnySuffix(verb, Ta, Mashita, Nakatta, MasenDeshita) {
+	case hasAnySuffix(verb, Ta, Mashita, Nakatta, MasenDeshita):
 		return PastIndicative
+	default:
+		return Unknown
 	}
-	return Unknown
 }
 
 // IdentifyPositivity determines whether the verb is
