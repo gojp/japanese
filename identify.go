@@ -41,11 +41,15 @@ const (
 
 // verb endings
 const (
-	Te      = "て"
-	Teiru   = "ている"
-	Teimasu = "ています"
-	Teru    = "てる"
-	Temasu  = "てます"
+	Te         = "て"
+	Teiru      = "ている"
+	Teimasu    = "ています"
+	Teru       = "てる"
+	Temasu     = "てます"
+	Teita      = "ていた"
+	Teimashita = "ていました"
+	Teta       = "てた"
+	Temashita  = "てました"
 
 	Ru    = "る"
 	U     = "う"
@@ -76,6 +80,19 @@ const (
 	Nakattadarou  = "なかっただろう"
 	Tadeshou      = "たでしょう"
 	Nakattadeshou = "なかったでしょう"
+
+	Reba     = "れば"
+	Eba      = "えば"
+	Keba     = "けば"
+	Geba     = "げば"
+	Seba     = "せば"
+	Teba     = "てば"
+	Neba     = "ねば"
+	Beba     = "べば"
+	Meba     = "めば"
+	Kereba   = "ければ"
+	Deareba  = "であれば"
+	Nakereba = "なければ"
 )
 
 type FormEnding struct {
@@ -90,7 +107,7 @@ var (
 	PastIndicativeEnding     = FormEnding{PastIndicative, []string{Ta, Mashita, Katta, Nakatta, MasenDeshita}}
 	PastPresumptiveEnding    = FormEnding{PastPresumptive, []string{Tarou, Tadarou, Nakattadarou, Tadeshou, Nakattadeshou}}
 	PresentProgressiveEnding = FormEnding{PresentProgressive, []string{Teiru, Teimasu, Teru, Temasu}}
-	PastProgressiveEnding    = FormEnding{}
+	PastProgressiveEnding    = FormEnding{PastProgressive, []string{Teita, Teimashita, Teta, Temashita}}
 	ProvisionalEnding        = FormEnding{}
 	ConditionalEnding        = FormEnding{}
 	PotentialEnding          = FormEnding{}
@@ -145,10 +162,14 @@ func IdentifyForm(verb string) (form int) {
 	switch {
 	case hasAnySuffix(verb, Teiru, Teimasu, Teru, Temasu):
 		return PresentProgressive
+	case hasAnySuffix(verb, Teita, Teimashita, Teta, Temashita):
+		return PastProgressive
 	case hasAnySuffix(verb, Ru, U, Masu, Nai, Masen):
 		return PresentIndicative
 	case hasAnySuffix(verb, Ta, Mashita, Nakatta, MasenDeshita):
 		return PastIndicative
+	case hasAnySuffix(verb, Reba, Eba, Keba, Geba, Seba, Teba, Neba, Beba, Meba, Kereba, Deareba, Nakereba):
+		return Provisional
 	default:
 		return Unknown
 	}
