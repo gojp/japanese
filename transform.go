@@ -62,12 +62,12 @@ func DictionaryForm(verb string) (godan string, ichidan string) {
 	}
 
 	// handle ichidan verbs
-
-	if secondEnding == Ru || secondEnding == U {
+	switch secondEnding {
+	case Ru, U:
 		ichidan = root
-	} else if secondEnding == Te {
+	case Te:
 		ichidan = secondRoot + Ru
-	} else {
+	default:
 		ichidan = root + Ru
 	}
 

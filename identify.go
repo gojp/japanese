@@ -59,7 +59,7 @@ const (
 	Darou     = "だろう"
 	Naidarou  = "ないだろう"
 	Mashou    = "ましょう"
-	Rudeshou  = "でしょう"
+	Deshou    = "でしょう"
 	Naideshou = "ないでしょう"
 
 	Ro           = "ろ"
@@ -81,7 +81,7 @@ type FormEnding struct {
 
 var (
 	PresentIndicativeEnding  = FormEnding{PresentIndicative, []string{Ru, U, Masu, Nai, Masen}}
-	PresumptiveEnding        = FormEnding{Presumptive, []string{You, Darou, Naidarou, Mashou, Rudeshou, Naideshou}}
+	PresumptiveEnding        = FormEnding{Presumptive, []string{You, Darou, Naidarou, Mashou, Deshou, Naideshou}}
 	ImperativeEnding         = FormEnding{Imperative, []string{Ro, Kudasai, Naidekudasai, Na}}
 	PastIndicativeEnding     = FormEnding{PastIndicative, []string{Ta, Mashita, Katta, Nakatta, MasenDeshita}}
 	PastPresumptiveEnding    = FormEnding{PastPresumptive, []string{Tarou, Tadarou, Nakattadarou, Tadeshou, Nakattadeshou}}
