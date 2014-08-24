@@ -8,6 +8,7 @@ import (
 func SplitEnding(verb string) (root, ending string) {
 	ending = IdentifyEnding(verb)
 	li := len(verb) - len(ending)
+
 	return verb[:li], verb[li:]
 }
 
