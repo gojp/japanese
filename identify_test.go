@@ -38,6 +38,17 @@ var tests = []struct {
 	{"寒ければ", Provisional, Kereba},
 	{"簡単であれば", Provisional, Deareba},
 	{"行かなければ", Provisional, Nakereba},
+
+	{"食べられる", Conditional, Rareru},
+	{"使える", Conditional, Eru},
+	//{"焼ける", Conditional, Keru},
+	//{"泳げる", Conditional, Geru},
+	{"示せる", Conditional, Seru},
+	{"待てる", Conditional, Teru},
+	{"死ねる", Conditional, Neru},
+	{"呼べる", Conditional, Beru},
+	{"読める", Conditional, Meru},
+	{"走れる", Conditional, Reru},
 	{"foo", Unknown, ""},
 }
 

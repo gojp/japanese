@@ -1,6 +1,10 @@
 package japanese
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/gojp/kana"
+)
 
 // possible verb forms
 const (
@@ -93,6 +97,17 @@ const (
 	Kereba   = "ければ"
 	Deareba  = "であれば"
 	Nakereba = "なければ"
+
+	Rareru = "られる"
+	Eru    = "える"
+	Keru   = "ける"
+	Geru   = "げる"
+	Seru   = "せる"
+	// Teru   = "てる"
+	Neru = "ねる"
+	Beru = "べる"
+	Meru = "める"
+	Reru = "れる"
 )
 
 type FormEnding struct {
@@ -109,7 +124,7 @@ var (
 	PresentProgressiveEnding = FormEnding{PresentProgressive, []string{Teiru, Teimasu, Teru, Temasu}}
 	PastProgressiveEnding    = FormEnding{PastProgressive, []string{Teita, Teimashita, Teta, Temashita}}
 	ProvisionalEnding        = FormEnding{Provisional, []string{Reba, Eba, Keba, Geba, Seba, Teba, Neba, Beba, Meba, Kereba, Deareba, Nakereba}}
-	ConditionalEnding        = FormEnding{}
+	ConditionalEnding        = FormEnding{Conditional, []string{Rareru, Eru, Seru, Teru, Neru, Beru, Meru, Reru}}
 	PotentialEnding          = FormEnding{}
 	CausativeEnding          = FormEnding{}
 	InfinitiveEnding         = FormEnding{}
@@ -160,7 +175,22 @@ func IdentifyEnding(verb string) (ending string) {
 // It returns the integer form constant
 func IdentifyForm(verb string) (form int) {
 	switch {
-	case hasAnySuffix(verb, Teiru, Teimasu, Teru, Temasu):
+	// TODO
+	//case hasAnySuffix(verb, Keru, Geru) && isIchidan(verb):
+	//	return PresentIndicative
+	case hasAnySuffix(verb, Reru, Eru, Geru, Seru, Neru, Beru, Meru):
+		return Conditional
+	case hasAnySuffix(verb, Teru):
+		if !kana.IsKanji(strings.Split(verb, Teru)[0]) {
+			return PresentProgressive
+		}
+		return Conditional
+	case hasAnySuffix(verb, Temasu):
+		if !kana.IsKanji(strings.Split(verb, Temasu)[0]) {
+			return PresentProgressive
+		}
+		return Conditional
+	case hasAnySuffix(verb, Teiru, Teimasu):
 		return PresentProgressive
 	case hasAnySuffix(verb, Teita, Teimashita, Teta, Temashita):
 		return PastProgressive
@@ -173,6 +203,8 @@ func IdentifyForm(verb string) (form int) {
 	default:
 		return Unknown
 	}
+
+	return Unknown
 }
 
 // IdentifyPositivity determines whether the verb is
