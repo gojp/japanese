@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gojp/japanese.svg?branch=master)](https://travis-ci.org/gojp/japanese) [![go report card](http://goreportcard.com/badge/gojp/japanese)](http://goreportcard.com/gojp/japanese)
+[![Build Status](https://travis-ci.org/gojp/japanese.svg?branch=master)](https://travis-ci.org/gojp/japanese) [![Go Report Card](https://goreportcard.com/badge/github.com/gojp/japanese)](https://goreportcard.com/report/github.com/gojp/japanese)
 # Japanese
 
 A Go (golang) package for generating the different possible word forms and conjugations in Japanese. 
