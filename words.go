@@ -256,7 +256,7 @@ func (v *Verb) te(end string) (word Word, err error) {
 	return Word{w.Kanji + end, w.Kana + end}, nil
 }
 
-// Progressive returns the te postive
+// Progressive returns the te positive
 // form of a Verb.
 func (v *Verb) Progressive() (word Word, err error) {
 	w, err := v.te("いる")
