@@ -34,6 +34,7 @@ func TestDictionaryFormBasicIchidans(t *testing.T) {
 		{"たべます", "たべる"},
 		{"おしえます", "おしえる"},
 		{"います", "いる"},
+		{"食べます", "食べる"},
 	}
 
 	for _, tt := range tests {
