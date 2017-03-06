@@ -55,6 +55,9 @@ func TestDictionaryFormBasicGodans(t *testing.T) {
 		{"ききます", "きく"},
 		{"ぬぎます", "ぬぐ"},
 		{"うたいます", "うたう"},
+		{"歌います", "歌う"},
+		// TODO: fix
+		// {"歌ってた", "歌たう"},
 	}
 
 	for _, tt := range tests {
