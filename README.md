@@ -3,7 +3,7 @@
 
 A Go (golang) package for generating the different possible word forms and conjugations in Japanese. 
 
-This is still under heavy development. It's basically only an experiment at this stage. However, later extensions might also include basic grammar parsing, analysis and translation. 
+This is still in the experimental stage. However, later extensions might also include basic grammar parsing, analysis and translation. 
 
 ## Where this is aiming
 
@@ -17,7 +17,9 @@ A `GetRoot` function that takes a string and returns one or more root forms, alo
 ```
 
 ## Examples
-For the most comprehensive examples, see the words_test.go file. For the impatient, here's an example of usage right now; it's bound to change in the (very near) future:
+For the most comprehensive examples, see the `words_test.go` file. 
+
+For the impatient, here's an example of usage right now (subject to change in the future):
 
     func main() {
         taberu := Verb{Verb{Word{"食べる", "たべる"}}
